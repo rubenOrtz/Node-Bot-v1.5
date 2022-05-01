@@ -77,33 +77,100 @@ async run(client, interaction, args) {
         );
         const banner = guild.banner;
   
-        interaction.editReply({ embeds: [
-          new MessageEmbed()
-            .setColor(process.env.bot1Embed_Color)
-            .setThumbnail(guild.iconURL({ dynamic: true }))
-            .setTimestamp()
-            .setFooter(guild.name, guild.iconURL({ dynamic: true }))
-            .setTitle(guild.name)
-            .addField(
-              `<:serverowner:863983092930183169> ${client.language.SERVERINFO[9]}`,
-              `<@${guild.ownerId}>`
-            )
-            .addField(
-              client.language.SERVERINFO[10],
-              "```" + `${guild.id}` + "```",
-              true
-            )
-            .addField( `<:Members:970395202219049030> ${client.language.SERVERINFO[11]}`, "```" + `${guild.memberCount}` + "```", true )
-            .addField( `😀 ${client.language.SERVERINFO[12]} [${emojis.size}]`, `<:join:864104115076595762> ${client.language.SERVERINFO[13]}: ${emojis.filter((emoji) => !emoji.animated).size }\n<a:flecha2:836295945423552522> ${client.language.SERVERINFO[14] }: ${emojis.filter((emoji) => emoji.animated).size}`, true )
-            .addField( `<:ticketblurple:893490671615361024> ${client.language.SERVERINFO[15]}`, "```" + `${role.length}` + "```", true )
-            .addField( `<:plus:864103028867727420> ${client.language.SERVERINFO[16]} [${guild.channels.cache.size}]`, `<:category:864116468291338290> ${client.language.SERVERINFO[17] }: ${guild.channels.cache.filter((x) => x.type === "GUILD_CATEGORY").size}\n<:textchannelblurple:863983092893220885> ${client.language.SERVERINFO[18] }: ${guild.channels.cache.filter((x) => x.type === "GUILD_TEXT").size }\n<:voicechannelblurple:864103406309867531> ${client.language.SERVERINFO[19] }: ${guild.channels.cache.filter((x) => x.type === "GUILD_VOICE").size}`, true )
-            .addField( `📆 ${client.language.SERVERINFO[20]}`, "```" + `${create}` + "```", true )
-            .addField( `<:serverbooster:864102069728313354> ${client.language.SERVERINFO[21]}`, "```" + `${boostcount}` + "```", true )
-            .addField( `<:money:864102174908612619> ${client.language.SERVERINFO[22]}`, `${boost ? "```" + `${client.language.SERVERINFO[23]} ${boost}` + "```" : "```" + `No` + "```" }`, true, true )
-            .addField( `**${client.language.SERVERINFO[25]}**`, `${verification[guild.verificationLevel]}` )
-            .addField( `**${client.language.SERVERINFO[26]}**`, "```" + `${explicitContent[guild.explicitContentFilter]}` + "```" )
-            .setImage(guild.bannerURL({ dynamic: true }))
-        ]});
+        interaction.editReply({
+          embeds: [
+            new MessageEmbed()
+              .setColor(process.env.bot1Embed_Color)
+              .setThumbnail(guild.iconURL({ dynamic: true }))
+              .setTimestamp()
+              .setFooter(guild.name, guild.iconURL({ dynamic: true }))
+              .setTitle(guild.name)
+              .addField(
+                `<:serverowner:863983092930183169> ${client.language.SERVERINFO[9]}`,
+                `<@${guild.ownerId}>`
+              )
+              .addField(
+                client.language.SERVERINFO[10],
+                "```" + `${guild.id}` + "```",
+                true
+              )
+              .addField(
+                `<:Members:970395202219049030> ${client.language.SERVERINFO[11]}`,
+                "```" + `${guild.memberCount}` + "```",
+                true
+              )
+              .addField(
+                `😀 ${client.language.SERVERINFO[12]} [${emojis.size}]`,
+                `<:join:864104115076595762> ${
+                  client.language.SERVERINFO[13]
+                }: ${
+                  emojis.filter((emoji) => !emoji.animated).size
+                }\n<a:flecha2:836295945423552522> ${
+                  client.language.SERVERINFO[14]
+                }: ${emojis.filter((emoji) => emoji.animated).size}`,
+                true
+              )
+              .addField(
+                `<:ticketblurple:893490671615361024> ${client.language.SERVERINFO[15]}`,
+                "```" + `${role.length}` + "```",
+                true
+              )
+              .addField(
+                `<:plus:864103028867727420> ${client.language.SERVERINFO[16]} [${guild.channels.cache.size}]`,
+                `<:List_Bottom_Large:970441521637769287> ${
+                  client.language.SERVERINFO[17]
+                }: ${
+                  guild.channels.cache.filter(
+                    (x) => x.type === "GUILD_CATEGORY"
+                  ).size
+                }\n<:textchannelblurple:893490117451333632> ${
+                  client.language.SERVERINFO[18]
+                }: ${
+                  guild.channels.cache.filter((x) => x.type === "GUILD_TEXT")
+                    .size
+                }\n<:blurple_voicechannel:970441881144156190> ${
+                  client.language.SERVERINFO[19]
+                }: ${
+                  guild.channels.cache.filter((x) => x.type === "GUILD_VOICE")
+                    .size
+                }`,
+                true
+              )
+              .addField(
+                `📆 ${client.language.SERVERINFO[20]}`,
+                "```" + `${create}` + "```",
+                true
+              )
+              .addField(
+                `<:boost:893553167499948135> ${client.language.SERVERINFO[21]}`,
+                "```" + `${boostcount}` + "```",
+                true
+              )
+              .addField(
+                `<:money:893553167596421131> ${client.language.SERVERINFO[22]}`,
+                `${
+                  boost
+                    ? "```" +
+                      `${client.language.SERVERINFO[23]} ${boost}` +
+                      "```"
+                    : "```" + `No` + "```"
+                }`,
+                true,
+                true
+              )
+              .addField(
+                `**${client.language.SERVERINFO[25]}**`,
+                `${verification[guild.verificationLevel]}`
+              )
+              .addField(
+                `**${client.language.SERVERINFO[26]}**`,
+                "```" +
+                  `${explicitContent[guild.explicitContentFilter]}` +
+                  "```"
+              )
+              .setImage(guild.bannerURL({ dynamic: true })),
+          ],
+        });
     //   } catch (e) {
     //     console.error(e);
     //     message.channel.send({
