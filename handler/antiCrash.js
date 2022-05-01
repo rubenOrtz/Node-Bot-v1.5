@@ -6,13 +6,13 @@ const {
 } = require('discord.js');
 const webhookClient = new simplestDiscordWebhook(process.env.errorWebhookURL);
 module.exports = client => {
-    process.on('unhandledRejection', (reason, p) => {
+    process.on('unhandledRejection',async(reason, p) => {
         Logger.warn(' [antiCrash] :: Unhandled Rejection/Catch');
         Logger.error(reason, p);
         const errorEmbed = new MessageEmbed()
             .setColor(15548997)
             .addField('Razón', '```' + reason + '```')
-            .addField('Error', '```' + p + '```')
+            .addField('Error', '```' + await p + '```')
         webhookClient.send(errorEmbed)
     });
     process.on("uncaughtException", (err, origin) => {

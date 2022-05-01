@@ -737,10 +737,6 @@ app.post('/api/v1/247automix', async (req, res) => {
             }
         })
         return embed
-
-
-
-
     }, {
         shard: req.body[9],
         context: {
@@ -755,7 +751,6 @@ app.post('/api/v1/loop', async (req, res) => {
     await client.shard.broadcastEval(async (c, {
         req_body
     }) => {
-
         const {
             MessageEmbed,
             Discord
