@@ -22,7 +22,7 @@ client.on("interactionCreate", async (interaction) => {
         const cmd = client.commands.get(interaction.commandName);
 
         if (cmd) {
-            client.logger.penis(`Comando ${cmd.name} ejecutado por ${interaction.user.name}#`)
+            client.logger.silly(`Comando ${cmd.name} ejecutado por ${interaction.user.username}#${interaction.user.tag}`)
 
             const args = [];
             for (let option of interaction.options.data) {
