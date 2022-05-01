@@ -36,9 +36,9 @@ module.exports = async function bot3missing(client, interaction, data, reqEndpoi
                     embeds: [embed]
                 })
             }).catch(() => {
-                bot4missing(client, interaction, data)
+                bot4missing(client, interaction, data, reqEndpoint)
             })
     } else {
-        bot4missing(client, interaction, data)
+        bot4missing(client, interaction, data, reqEndpoint)
     }
 }
