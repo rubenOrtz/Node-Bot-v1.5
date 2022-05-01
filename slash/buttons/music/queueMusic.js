@@ -1,9 +1,5 @@
 require("dotenv").config();
-const {
-  Client,
-  MessageEmbed,
-  CommandInteraction
-} = require("discord.js");
+const { Client, MessageEmbed, CommandInteraction } = require("discord.js");
 const Logger = require("../../../utils/console");
 const fetch = require("node-fetch");
 
@@ -17,7 +13,7 @@ module.exports = {
   run: async (client, interaction) => {
     try {
       await interaction.deferReply({
-        ephemeral: true
+        ephemeral: true,
       });
 
       const player = client.manager.players.get(interaction.guild.id);
@@ -33,22 +29,25 @@ module.exports = {
       data.push(interaction.options);
       data.push(client.user.displayAvatarURL());
       data.push(interaction.member.voice);
-      await interaction.guild.members.fetch(process.env.bot1id).then(member => {
-        data.push(member.voice)
-      })
+      data.push(interaction.guild.shardId);
+      await interaction.guild.members
+        .fetch(process.env.bot1id)
+        .then((member) => {
+          data.push(member.voice);
+        });
 
       fetch(`http://localhost:${process.env.bot1Port}/api/v1/get_queue`, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": process.env.jwt
-          },
-        })
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.jwt,
+        },
+      })
         .then((response) => response.json())
         .then((embed) => {
           interaction.editReply({
-            embeds: [embed]
+            embeds: [embed],
           });
         });
     } catch (e) {
