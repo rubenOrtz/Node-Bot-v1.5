@@ -47,7 +47,7 @@
 //         const embed = new MessageEmbed()
 //           .setTitle(res.data.title)
 //           .setURL(res.data.links.genius)
-//           .setColor(process.env.EMBED_COLOR)
+//           .setColor(process.env.bot1Embed_Color)
 //           .setDescription(res.data.lyrics)
 //           .setFooter(res.data.author)
 //           .setThumbnail(res.data.thumbnail.genius);

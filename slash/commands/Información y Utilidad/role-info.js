@@ -51,12 +51,12 @@ async run(client, interaction, args) {
             .setColor(role.displayHexColor || "#1DC44F")
             .setAuthor(guild.name, guild.iconURL({ dynamic: true }))
             .addField(
-                `<:serverowner:863983092930183169> ${client.language.ROLEINFO[1]}: `,
+                `<:pepeblink:967941236029788160> ${client.language.ROLEINFO[1]}: `,
                 "```" + `${role.name}` + "```",
                 true
             ) //Nombre del rol
             .addField(
-                `<:textchannelblurple:863983092893220885> ${client.language.ROLEINFO[2]}: `,
+                `<:textchannelblurple:893490117451333632> ${client.language.ROLEINFO[2]}: `,
                 "```" + `${role.id}` + "```",
                 true
             ) //Id del rol
@@ -73,7 +73,7 @@ async run(client, interaction, args) {
                 true
             ) //Su hexColor
             .addField(
-                `<:roles:864116470648930304> ${client.language.ROLEINFO[6]}: `,
+                `<:star:893553167915188275> ${client.language.ROLEINFO[6]}: `,
                 role.mentionable
                     ? "```" + client.language.ROLEINFO[10] + "```"
                     : "```" + client.language.ROLEINFO[11] + "```",

@@ -1,63 +1,70 @@
-const { Client, CommandInteraction, MessageEmbed, Discord } = require('discord.js');
+const {
+    Client,
+    CommandInteraction,
+    MessageEmbed,
+    Discord
+} = require('discord.js');
 const Command = require('../../../structures/command.js');
 const moment = require("moment");
 
 const flags = {
-	DISCORD_EMPLOYEE: "Discord Employee",
-	PARTNERED_SERVER_OWNER: "Discord Partner",
-	BUGHUNTER_LEVEL_1: "Bug Hunter (Level 1)",
-	BUGHUNTER_LEVEL_2: "Bug Hunter (Level 2)",
-	HYPESQUAD_EVENTS: "HypeSquad Events",
-	HOUSE_BRAVERY: "House of Bravery",
-	HOUSE_BRILLIANCE: "House of Brilliance",
-	HOUSE_BALANCE: "House of Balance",
-	EARLY_SUPPORTER: "Early Supporter",
-	TEAM_USER: "Team User",
-	SYSTEM: "System",
-	VERIFIED_BOT: "Verified Bot",
-	EARLY_VERIFIED_BOT_DEVELOPER: "Verified Bot Developer",
-	DISCORD_CERTIFIED_MODERATOR: "Discord Certified Moderator"
+    DISCORD_EMPLOYEE: "Discord Employee",
+    PARTNERED_SERVER_OWNER: "Discord Partner",
+    BUGHUNTER_LEVEL_1: "Bug Hunter (Level 1)",
+    BUGHUNTER_LEVEL_2: "Bug Hunter (Level 2)",
+    HYPESQUAD_EVENTS: "HypeSquad Events",
+    HOUSE_BRAVERY: "House of Bravery",
+    HOUSE_BRILLIANCE: "House of Brilliance",
+    HOUSE_BALANCE: "House of Balance",
+    EARLY_SUPPORTER: "Early Supporter",
+    TEAM_USER: "Team User",
+    SYSTEM: "System",
+    VERIFIED_BOT: "Verified Bot",
+    EARLY_VERIFIED_BOT_DEVELOPER: "Verified Bot Developer",
+    DISCORD_CERTIFIED_MODERATOR: "Discord Certified Moderator"
 };
 
 module.exports = class userinfo extends Command {
     constructor(client) {
-       super(client, {
-        name: 'userinfo',
-        description: 'Get the info of a user.',
-        name_localizations: {
-           'es-ES': 'infousuario',
-        },
-        description_localizations: {
-           'es-ES': 'Otene la información de un usuario.',
-        },
-        cooldown: 5,
-        options: [{
-           type: 6,
-           name: 'user',
-           description: 'User to get the info ',
-           name_localizations: {
-              'es-ES': 'usuario'
-           },
-           description_localizations: {
-              'es-ES': 'Ususario al que se le obtendrá la información'
-           },
-           required: false
-         }
-        ]
-     });
+        super(client, {
+            name: 'userinfo',
+            description: 'Get the info of a user.',
+            name_localizations: {
+                'es-ES': 'infousuario',
+            },
+            description_localizations: {
+                'es-ES': 'Otene la información de un usuario.',
+            },
+            cooldown: 5,
+            options: [{
+                type: 6,
+                name: 'user',
+                description: 'User to get the info ',
+                name_localizations: {
+                    'es-ES': 'usuario'
+                },
+                description_localizations: {
+                    'es-ES': 'Ususario al que se le obtendrá la información'
+                },
+                required: false
+            }]
+        });
     }
     /**,
-* @param {Client} client
-* @param {CommandInteraction} interaction
-* @param {String[]} args
-*/
-async run(client, interaction, args) {
-    // try {
+     * @param {Client} client
+     * @param {CommandInteraction} interaction
+     * @param {String[]} args
+     */
+    async run(client, interaction, args) {
+        // try {
         let embed2 = new MessageEmbed()
-            .setColor("#008822")
+            .setColor(process.env.bot1Embed_Color)
             .setDescription('Obteniendo el perfil...')
             .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL());
-        const sentMessage = await interaction.editReply({ content: " ", embeds: [embed2] })
+        const sentMessage = await interaction.editReply({
+            content: " ",
+            embeds: [embed2]
+        })
         let member
         if (args[0]) {
             member = await interaction.guild.members.fetch(args[0]).catch(e => {
@@ -72,7 +79,9 @@ async run(client, interaction, args) {
                 .setTitle(client.language.ERROREMBED)
                 .setDescription(client.language.USERINFO[17])
                 .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL());
-            return interaction.editReply({ embeds: [errorembed] });
+            return interaction.editReply({
+                embeds: [errorembed]
+            });
         }
         let badges = [];
         const roles = member.roles.cache
@@ -108,25 +117,25 @@ async run(client, interaction, args) {
         }
         if (member.user && member.user.username)
             embed.addField(
-                `<:serverowner:863983092930183169> ${client.language.USERINFO[1]}`,
+                `<:crown:893553167931957298> ${client.language.USERINFO[1]}`,
                 "```" + `${member.user.username}` + "```"
             );
         if (member.user && member.user.discriminator)
             embed.addField(
-                "<:textchannelblurple:863983092893220885> " +
+                "<:textchannelblurple:893490117451333632> " +
                 client.language.USERINFO[2],
                 "```" + `${member.user.discriminator}` + "```",
                 true
             );
         if (member.id)
             embed.addField(
-                `<:settings:864103218828017694> ${client.language.USERINFO[3]}`,
+                `<:blurple_settings:970394928742027304> ${client.language.USERINFO[3]}`,
                 "```" + `${member.id}` + "```",
                 true
             );
         if (userFlags)
             embed.addField(
-                `<:ticketblurple:863983092783382548> ${client.language.USERINFO[11]}`,
+                `<:ticketblurple:893490671615361024> ${client.language.USERINFO[11]}`,
                 "```" +
                 `${userFlags.length
                     ? userFlags.map((flag) => flags[flag]).join(", ")
@@ -157,7 +166,7 @@ async run(client, interaction, args) {
             );
         if (member.roles && member.roles.highest.id && member.roles.highest.name)
             embed.addField(
-                `<:upvote:864107632411541514> ${client.language.USERINFO[13]}`,
+                `<:upvote:970397919700197496> ${client.language.USERINFO[13]}`,
                 "```" +
                 `${member.roles.highest.id === interaction.guild.id
                     ? client.language.USERINFO[8]
@@ -189,7 +198,9 @@ async run(client, interaction, args) {
                 })})`,
                 true
             );
-            interaction.editReply({ embeds: [embed] });
+        interaction.editReply({
+            embeds: [embed]
+        });
         // if (emblemas && emblemas.Premium.Enabled)
         //     badges.push("<a:premium:866135287258939393>");
         // if (emblemas && emblemas.EarlyPremium.Enabled)
@@ -262,36 +273,37 @@ async run(client, interaction, args) {
         //         return sentMessage.edit({ embeds: [embed] });
         //     }
         // })
-    // } catch (e) {
-    //     console.error(e);
-    //     message.channel.send({
-    //         embeds: [
-    //             new Discord.MessageEmbed()
-    //                 .setColor("RED")
-    //                 .setTitle(client.language.ERROREMBED)
-    //                 .setDescription(client.language.fatal_error)
-    //                 .setFooter(message.author.username, message.author.avatarURL())
-    //         ]
-    //     });
-    //     webhookClient.send(
-    //         `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
-    //     );
-    //     try {
-    //         message.author
-    //             .send(
-    //                 "Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>"
-    //             )
-    //             .catch(e);
-    //     } catch (e) { }
-    // }
+        // } catch (e) {
+        //     console.error(e);
+        //     message.channel.send({
+        //         embeds: [
+        //             new Discord.MessageEmbed()
+        //                 .setColor("RED")
+        //                 .setTitle(client.language.ERROREMBED)
+        //                 .setDescription(client.language.fatal_error)
+        //                 .setFooter(message.author.username, message.author.avatarURL())
+        //         ]
+        //     });
+        //     webhookClient.send(
+        //         `Ha habido un error en **${message.guild.name} [ID Server: ${message.guild.id}] [ID Usuario: ${message.author.id}] [Owner: ${message.guild.ownerId}]**. Numero de usuarios: **${message.guild.memberCount}**\nMensaje: ${message.content}\n\nError: ${e}\n\n**------------------------------------**`
+        //     );
+        //     try {
+        //         message.author
+        //             .send(
+        //                 "Oops... Ha ocurrido un eror con el comando ejecutado. Aunque ya he notificado a mis desarrolladores del problema, ¿te importaría ir a discord.gg/nodebot y dar más información?\n\nMuchísimas gracias rey <a:corazonmulticolor:836295982768586752>"
+        //             )
+        //             .catch(e);
+        //     } catch (e) { }
+        // }
 
- }
+    }
 }
+
 function trimArray(arr, maxLen = 10) {
-	if (arr.length > maxLen) {
-		const len = arr.length - maxLen;
-		arr = arr.slice(0, maxLen);
-		arr.push(`${len} more...`);
-	}
-	return arr;
+    if (arr.length > maxLen) {
+        const len = arr.length - maxLen;
+        arr = arr.slice(0, maxLen);
+        arr.push(`${len} more...`);
+    }
+    return arr;
 }

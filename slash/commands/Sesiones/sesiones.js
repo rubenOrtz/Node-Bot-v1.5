@@ -108,9 +108,9 @@ module.exports = class sesions extends Command {
                   ephemeral: true
                 });
               }
-              embed.setColor(process.env.EMBED_COLOR);
+              embed.setColor(process.env.bot1Embed_Color);
               embed.setDescription(
-                `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
+                `<a:arrowright:970388686816550912> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:arrowleft:893553168108093560>**`
               );
               return interaction.editReply({
                 embeds: [embed]
@@ -141,9 +141,9 @@ module.exports = class sesions extends Command {
                     ephemeral: true
                   });
                 }
-                embed.setColor(process.env.EMBED_COLOR);
+                embed.setColor(process.env.bot1Embed_Color);
                 embed.setDescription(
-                  `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
+                  `<a:arrowright:970388686816550912> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:arrowleft:893553168108093560>**`
                 );
                 return interaction.editReply({
                   embeds: [embed]
@@ -174,9 +174,9 @@ module.exports = class sesions extends Command {
                     ephemeral: true
                   });
                 }
-                embed.setColor(process.env.EMBED_COLOR);
+                embed.setColor(process.env.bot1Embed_Color);
                 embed.setDescription(
-                  `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
+                  `<a:arrowright:970388686816550912> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:arrowleft:893553168108093560>**`
                 );
                 return interaction.editReply({
                   embeds: [embed]
@@ -207,9 +207,9 @@ module.exports = class sesions extends Command {
                     ephemeral: true
                   });
                 }
-                embed.setColor(process.env.EMBED_COLOR);
+                embed.setColor(process.env.bot1Embed_Color);
                 embed.setDescription(
-                  `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
+                  `<a:arrowright:970388686816550912> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:arrowleft:893553168108093560>**`
                 );
                 return interaction.editReply({
                   embeds: [embed]
@@ -240,9 +240,9 @@ module.exports = class sesions extends Command {
                     ephemeral: true
                   });
                 }
-                embed.setColor(process.env.EMBED_COLOR);
+                embed.setColor(process.env.bot1Embed_Color);
                 embed.setDescription(
-                  `<a:arrowright:835907836352397372> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:flechaizquierda:836295936673579048>**`
+                  `<a:arrowright:970388686816550912> **${client.language.BETRAYAL[1]}(${invite.code} 'Enlace de Youtube') <a:arrowleft:893553168108093560>**`
                 );
                 return interaction.editReply({
                   embeds: [embed]

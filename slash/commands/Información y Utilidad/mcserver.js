@@ -1,64 +1,75 @@
-const { Client, CommandInteraction, MessageEmbed, MessageAttachment } = require('discord.js');
+const {
+  Client,
+  CommandInteraction,
+  MessageEmbed,
+  MessageAttachment
+} = require('discord.js');
 const Command = require('../../../structures/command.js');
 const axios = require("axios");
 
 module.exports = class mcserver extends Command {
-    constructor(client) {
-       super(client, {
-        name: 'mcserver',
-        description: 'Send a image of a Minecraft server.',
-        description_localizations: {
-           'es-ES': 'Envía una imagen de un servidor de Minecraft.',
+  constructor(client) {
+    super(client, {
+      name: 'mcserver',
+      description: 'Send a image of a Minecraft server.',
+      description_localizations: {
+        'es-ES': 'Envía una imagen de un servidor de Minecraft.',
+      },
+      cooldown: 5,
+      options: [{
+        type: 3,
+        name: 'server',
+        description: 'Minecraft server to show the image of.',
+        name_localizations: {
+          'es-ES': 'servidor'
         },
-        cooldown: 5,
-        options: [{
-           type: 3,
-           name: 'server',
-           description: 'Minecraft server to show the image of.',
-           name_localizations: {
-              'es-ES': 'servidor'
-           },
-           description_localizations: {
-              'es-ES': 'Servidor de Minecraft.'
-           },
-           required: true
-         }
-        ]
-     });
-    }
-    /**,
-* @param {Client} client
-* @param {CommandInteraction} interaction
-* @param {String[]} args
-*/
-async run(client, interaction, args) {
+        description_localizations: {
+          'es-ES': 'Servidor de Minecraft.'
+        },
+        required: true
+      }]
+    });
+  }
+  /**,
+   * @param {Client} client
+   * @param {CommandInteraction} interaction
+   * @param {String[]} args
+   */
+  async run(client, interaction, args) {
     // try {
-        let url;
-        if (args[1]) {
-          url = `http://status.mclive.eu/${args[0]}/${args[0]}/${args[1]}/banner.png`;
-        } else {
-          url = `http://status.mclive.eu/${args[0]}/${args[0]}/25565/banner.png`;
-        }
-        axios
-          .get(url, {
-            responseType: "arraybuffer",
-          })
-          .then((image) => {
-            let returnedB64 = Buffer.from(image.data).toString("base64");
-            const sfattach = new MessageAttachment(
-              image.data,
-              "output.png"
-            );
-            interaction.editReply({files: [sfattach]});
-          })
-          .catch(() => {
-            const errorembed = new MessageEmbed()
-              .setColor("RED")
-              .setTitle(client.language.ERROREMBED)
-              .setDescription(client.language.MCSERVER[12])
-              .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL());
-            return interaction.editReply({embeds: [errorembed], ephemeral: true});
-          });
+    let url;
+    args = args[0].split(':')
+    if (args[1]) {
+      url = `http://status.mclive.eu/${args[0]}/${args[0]}/${args[1]}/banner.png`;
+    } else {
+      url = `http://status.mclive.eu/${args[0]}/${args[0]}/25565/banner.png`;
+    }
+    axios
+      .get(url, {
+        responseType: "arraybuffer",
+      })
+      .then((image) => {
+        let returnedB64 = Buffer.from(image.data).toString("base64");
+        const sfattach = new MessageAttachment(
+          image.data,
+          "output.png"
+        );
+        interaction.editReply({
+          embeds: [],
+          files: [sfattach]
+        });
+      })
+      .catch(() => {
+        const errorembed = new MessageEmbed()
+          .setColor("RED")
+          .setTitle(client.language.ERROREMBED)
+          .setDescription(client.language.MCSERVER[12])
+          .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL());
+        return interaction.editReply({
+          embeds: [errorembed],
+          ephemeral: true
+        });
+      });
     //   } catch (e) {
     //     console.error(e);
     //     message.channel.send({
@@ -81,5 +92,5 @@ async run(client, interaction, args) {
     //         .catch(e);
     //     } catch (e) {}
     //   }
- }
+  }
 }

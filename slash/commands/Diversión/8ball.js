@@ -57,7 +57,7 @@ module.exports = class ball extends Command {
       const embed = new MessageEmbed() //definimos el embed
          .addField(client.language.QUESTIONBALL[1], `${args.join(" ")}`) //primer valor decimos a su pregunta y en el segundo valor va la pregunta que iso el usuario
          .addField(client.language.QUESTIONBALL[2], `${random}`) //primer valor decimos "Mi respuesta" y en el segundo decimos que va a agarrar el var random
-         .setColor("#008822"); //un color random
+         .setColor(process.env.bot1Embed_Color); //un color random
       interaction.editReply({
          embeds: [embed]
       }); //y que mande el embed

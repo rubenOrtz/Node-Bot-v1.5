@@ -1,132 +1,139 @@
-const { Client, CommandInteraction, MessageEmbed, Discord } = require('discord.js');
+const {
+  Client,
+  CommandInteraction,
+  MessageEmbed,
+  Discord
+} = require('discord.js');
 const Command = require('../../../structures/command.js');
 
 module.exports = class help extends Command {
-    constructor(client) {
-       super(client, {
-        name: 'help',
-        description: 'Show information about me.',
+  constructor(client) {
+    super(client, {
+      name: 'help',
+      description: 'Show information about me.',
+      name_localizations: {
+        'es-ES': 'ayuda',
+      },
+      description_localizations: {
+        'es-ES': 'Muestra información sobre mi.',
+      },
+      cooldown: 5,
+      options: [{
+        type: 3,
+        name: 'command',
+        description: 'The command you want to get help for.',
         name_localizations: {
-           'es-ES': 'ayuda',
+          'es-ES': 'comando',
         },
         description_localizations: {
-           'es-ES': 'Muestra información sobre mi.',
+          'es-ES': 'El comando del que quieres obtener ayuda.',
         },
-        cooldown: 5,
-        options: [{
-           type: 3,
-           name: 'command',
-           description: 'The command you want to get help for.',
-           name_localizations: {
-              'es-ES': 'comando',
-           },
-           description_localizations: {
-              'es-ES': 'El comando del que quieres obtener ayuda.',
-           },
-           required: false
-         }
-        ]
-     });
-    }
-async run(client, interaction, args) {
+        required: false
+      }]
+    });
+  }
+  async run(client, interaction, args) {
     // try {
-        if (!args[0]) {
-            console.log(interaction)
-          // let web = new MessageButton()
-          //   .setStyle("url")
-          //   .setLabel(client.language.HELP[1])
-          //   .setEmoji("🌐")
-          //   .setURL("https://nodebot.xyz");
-  
-          // let invite = new MessageButton()
-          //   .setStyle("url")
-          //   .setLabel(client.language.HELP[2])
-          //   .setEmoji("💌")
-          //   .setURL("https://invite.nodebot.xyz");
-  
-          // let support = new MessageButton()
-          //   .setStyle("url")
-          //   .setLabel(client.language.HELP[3])
-          //   .setEmoji("🛠️")
-          //   .setURL("https://support.nodebot.xyz");
-          // let ButtonArray = [web, invite, support];
-  
-          const embed = new MessageEmbed()
-            .setColor("##008822")
-            .setDescription(
-              `<a:828830816486293608:836296002893381682> ${client.language.HELP[5]} \`Node\`, ${client.language.HELP[6]}`
-            )
-            .addField(
-              client.language.HELP[7],
-              `${client.language.HELP[8]} \`/${interaction.commandName}\`.`
-            )
-            .addField(client.language.HELP[9], client.language.HELP[10])
-            .addField(
-              client.language.HELP[11],
-              client.language.HELP[12] +
-                `<a:arrowright:835907836352397372> \`/vote\` <a:flechaizquierda:836295936673579048> ${client.language.HELP[14]}(https://vote.nodebot.xyz 'Estamos esperando tu voto :)')`
-            )
-            .setThumbnail(interaction.member.displayAvatarURL({ dynamic: true }))
-            .setTitle("✨" + client.language.HELP[13]);
-          //let user = client.users.cache.get(message.author.id)
-  
-          //message.lineReply(client.language.HELP[4]);
-          interaction.editReply({
-            embeds: [embed]
-            //buttons: ButtonArray,
-          });
-        } else {
-          const data = [];
-          const name = args[0].toLowerCase();
-          const command =
-            client.commands.get(name)
-  
-          if (!command) {
-            const errorembed = new MessageEmbed()
-              .setColor("RED")
-              .setTitle(client.language.ERROREMBED)
-              .setDescription(name + client.language.HELP[25])
-              .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL());
-            return interaction.editReply({embeds: [errorembed], ephemeral: true});
-          }
-  
-          data.push(`**${client.language.HELP[15]}:** ${command.name}`);
-  
-          if (command.description)
-            data.push(`**${client.language.HELP[17]}:** ${command.description}`);
-            let ajj
-          if (command.options)
-            data.push(
-              `**${client.language.HELP[18]}:** .${command.name} ${command.options.map(a => { return ajj = a.name ? a.name : null}).join(" ")}`
-            );
-  
-          data.push(
-            `**${client.language.HELP[19]}:** ${command.cooldown || 3} ${client.language.HELP[30]}(s)`
-          );
-          let embed2 = new MessageEmbed()
-            .setTitle(
-              client.language.HELP[20] + command.name + client.language.HELP[24]
-            )
-            .setColor(process.env.EMBED_COLOR)
-            .addFields(
-              {
-                name: `**${client.language.HELP[17]}**`,
-                value: command.description ? command.description.toString() : client.language.HELP[29],
-                inline: true,
-              },
-              {
-                name: `**${client.language.HELP[18]}**`,
-                value: ajj ? ajj : client.language.HELP[29],
-                inline: true,
-              },
-            )
-            .setFooter(
-              `\n${client.language.HELP[26]} \`/${interaction.commandName} [${client.language.HELP[27]}]\` ${client.language.HELP[28]}`
-            )
-            .setTimestamp(" ");
-  
-          interaction.editReply({ embeds: [embed2]});
-        }
+    if (!args[0]) {
+      // let web = new MessageButton()
+      //   .setStyle("url")
+      //   .setLabel(client.language.HELP[1])
+      //   .setEmoji("🌐")
+      //   .setURL("https://nodebot.xyz");
+
+      // let invite = new MessageButton()
+      //   .setStyle("url")
+      //   .setLabel(client.language.HELP[2])
+      //   .setEmoji("💌")
+      //   .setURL("https://invite.nodebot.xyz");
+
+      // let support = new MessageButton()
+      //   .setStyle("url")
+      //   .setLabel(client.language.HELP[3])
+      //   .setEmoji("🛠️")
+      //   .setURL("https://support.nodebot.xyz");
+      // let ButtonArray = [web, invite, support];
+
+      const embed = new MessageEmbed()
+        .setColor(process.env.bot1Embed_Color)
+        .setDescription(
+          `<a:pin:893553168259121172> ${client.language.HELP[5]} \`Node\`, ${client.language.HELP[6]}`
+        )
+        .addField(
+          client.language.HELP[7],
+          `${client.language.HELP[8]} \`/${interaction.commandName}\`.`
+        )
+        .addField(client.language.HELP[9], client.language.HELP[10])
+        .addField(
+          client.language.HELP[11],
+          client.language.HELP[12] +
+          `<a:arrowright:970388686816550912> \`/vote\` <a:arrowleft:893553168108093560> ${client.language.HELP[14]}(https://vote.nodebot.xyz 'Estamos esperando tu voto :)')`
+        )
+        .setThumbnail(interaction.member.displayAvatarURL({
+          dynamic: true
+        }))
+        .setTitle("✨" + client.language.HELP[13]);
+      //let user = client.users.cache.get(message.author.id)
+
+      //message.lineReply(client.language.HELP[4]);
+      interaction.editReply({
+        embeds: [embed]
+        //buttons: ButtonArray,
+      });
+    } else {
+      const data = [];
+      const name = args[0].toLowerCase();
+      const command =
+        client.commands.get(name)
+
+      if (!command) {
+        const errorembed = new MessageEmbed()
+          .setColor("RED")
+          .setTitle(client.language.ERROREMBED)
+          .setDescription(name + client.language.HELP[25])
+          .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL());
+        return interaction.editReply({
+          embeds: [errorembed],
+          ephemeral: true
+        });
+      }
+
+      data.push(`**${client.language.HELP[15]}:** ${command.name}`);
+
+      if (command.description)
+        data.push(`**${client.language.HELP[17]}:** ${command.description}`);
+      let ajj
+      if (command.options)
+        data.push(
+          `**${client.language.HELP[18]}:** .${command.name} ${command.options.map(a => { return ajj = a.name ? a.name : null}).join(" ")}`
+        );
+
+      data.push(
+        `**${client.language.HELP[19]}:** ${command.cooldown || 3} ${client.language.HELP[30]}(s)`
+      );
+      let embed2 = new MessageEmbed()
+        .setTitle(
+          client.language.HELP[20] + command.name + client.language.HELP[24]
+        )
+        .setColor(process.env.bot1Embed_Color)
+        .addFields({
+          name: `**${client.language.HELP[17]}**`,
+          value: command.description ? command.description.toString() : client.language.HELP[29],
+          inline: true,
+        }, {
+          name: `**${client.language.HELP[18]}**`,
+          value: ajj ? ajj : client.language.HELP[29],
+          inline: true,
+        }, )
+        .setFooter(
+          `\n${client.language.HELP[26]} \`/${interaction.commandName} [${client.language.HELP[27]}]\` ${client.language.HELP[28]}`
+        )
+        .setTimestamp(" ");
+
+      interaction.editReply({
+        embeds: [embed2]
+      });
+    }
     //   } catch (e) {
     //     console.error(e);
     //     message.channel.send({
@@ -149,5 +156,5 @@ async run(client, interaction, args) {
     //         .catch(e);
     //     } catch (e) {}
     //   }
- }
+  }
 }

@@ -61,7 +61,7 @@ async run(client, interaction, args) {
   
             const embedhistory = new MessageEmbed()
               .setTitle(client.language.MCHISTORY[4])
-              .setColor(process.env.EMBED_COLOR)
+              .setColor(process.env.bot1Embed_Color)
               .setTimestamp(" ");
   
             for (

@@ -9,9 +9,14 @@ const Sentry = require('@sentry/node');
 //     ClusterManager
 // } = require('discord.js-cluster');
 
-const { ShardingManager } = require('discord.js');
+const {
+  ShardingManager
+} = require('discord.js');
 
-const manager = new ShardingManager('./bot.js', { token: process.env.token, totalShards: "auto" });
+const manager = new ShardingManager('./bot.js', {
+  token: process.env.token,
+  totalShards: 2
+});
 // const manager = new ClusterManager('./bot.js', {
 //     token: process.env.TOKEN,
 //     totalShards: "auto",
@@ -20,14 +25,14 @@ const manager = new ShardingManager('./bot.js', { token: process.env.token, tota
 // });
 
 fs.writeFile("test.txt", "0", function (err) {
-    if (err) {
-      return console.log(err);
-    }
-  });
-  manager.on('shardCreate', shard => {
-    Logger.debug(`Launched cluster ${shard.id}`);
-    shard.on('message', (message) => (new ShardMessage(null, ShardMessage)).run(shard, message, manager, Logger));
-  });
+  if (err) {
+    return console.log(err);
+  }
+});
+manager.on('shardCreate', shard => {
+  Logger.debug(`Launched cluster ${shard.id}`);
+  shard.on('message', (message) => (new ShardMessage(null, ShardMessage)).run(shard, message, manager, Logger));
+});
 
 // manager.on('shardCreate', cluster => Logger.debug(`Launched cluster ${cluster.id}`));
 
@@ -63,13 +68,12 @@ if (process.env.STATCORD_TOKEN && process.env.NODE_ENV != "development") {
 }
 if (process.env.NODE_ENV != 'development') {
   if (process.env.SENTRY_DSN) {
-      Sentry.init({
-          dsn: process.env.SENTRY_DSN,
-          environment: process.env.NODE_ENV,
-          release: require('./package.json').version,
-          tracesSampleRate: 0.5,
-      });
-      Logger.log('Connected to Sentry');
-  }
-  else Logger.warn('Sentry dsn missing.');
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV,
+      release: require('./package.json').version,
+      tracesSampleRate: 0.5,
+    });
+    Logger.log('Connected to Sentry');
+  } else Logger.warn('Sentry dsn missing.');
 }

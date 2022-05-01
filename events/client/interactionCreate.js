@@ -17,7 +17,9 @@ client.on("interactionCreate", async (interaction) => {
 
         await interaction.reply({
             embeds: [loadingEmbed]
-        });
+        }).catch(e => {
+            client.logger.error(e)
+        })
         const cmd = client.commands.find(cmd2 => cmd2.name === interaction.commandName);
 
         if (cmd) {

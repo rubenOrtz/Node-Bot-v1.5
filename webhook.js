@@ -75,9 +75,10 @@ app.post('/api/v1/new_player', async (req, res) => {
         if (!req_body[0]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.PLAY[1],
-                    req_body[3]
-                );
+                .setFooter({
+                    text: client.language.PLAY[1],
+                    iconURL: req_body[3]
+                }, );
             return errorembed
         }
         let player
@@ -91,9 +92,10 @@ app.post('/api/v1/new_player', async (req, res) => {
         } catch (e) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.PLAY[14],
-                    req_body[3]
-                );
+                .setFooter({
+                    text: client.language.PLAY[14],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
 
@@ -106,9 +108,10 @@ app.post('/api/v1/new_player', async (req, res) => {
         if (!playerCanal) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.PLAY[1],
-                    req_body[3]
-                );
+                .setFooter({
+                    text: client.language.PLAY[1],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
         if (playerCanal.id != req_body[0]["channel"] && playerCanal.members.size == 1) {
@@ -119,9 +122,10 @@ app.post('/api/v1/new_player', async (req, res) => {
         } else if (playerCanal.id != req_body[0]["channel"]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.PLAY[2],
-                    req_body[3]
-                );
+                .setFooter({
+                    text: client.language.PLAY[2],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
         if (req_body[7][0].startsWith("https://open.spotify.com/")) {
@@ -192,7 +196,10 @@ app.post('/api/v1/new_player', async (req, res) => {
                     if (!player.queue.current) player.destroy();
                     const errorembed = new MessageEmbed()
                         .setColor(15548997)
-                        .setFooter(client.language.PLAY[9], req_body[3]);
+                        .setFooter({
+                            text: client.language.PLAY[9],
+                            iconURL: req_body[3]
+                        });
                     return errorembed
                 }
             } catch (e) {
@@ -203,7 +210,10 @@ app.post('/api/v1/new_player', async (req, res) => {
                     if (!player.queue.current) player.destroy();
                     const errorembed = new MessageEmbed()
                         .setColor(15548997)
-                        .setFooter(client.language.PLAY[10], req_body[3]);
+                        .setFooter({
+                            text: client.language.PLAY[10],
+                            iconURL: req_body[3]
+                        });
                     return errorembed
                 case "SEARCH_RESULT": {
                     const embed = await new MessageEmbed()
@@ -315,7 +325,10 @@ app.post('/api/v1/get_queue', async (req, res) => {
         if (!player || !player.queue.current) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.QUEUE[1], req_body[2]);
+                .setFooter({
+                    text: client.language.QUEUE[1],
+                    iconURL: req_body[2]
+                })
             return errorembed
         }
 
@@ -367,7 +380,10 @@ app.post('/api/v1/get_queue', async (req, res) => {
         if (!queuelist) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.QUEUE[4], req_body[2]);
+                .setFooter({
+                    text: client.language.QUEUE[4],
+                    iconURL: req_body[2]
+                })
             return errorembed
         }
         const embed = new MessageEmbed();
@@ -383,7 +399,10 @@ app.post('/api/v1/get_queue', async (req, res) => {
                 )})`,
             "https://i.imgur.com/CCqeomm.gif"
         );
-        embed.setFooter(`${client.language.QUEUE[5]} ${player.queue.length}`);
+        embed.setFooter({
+            text: `${client.language.QUEUE[5]} ${player.queue.length}`,
+            iconURL: req_body[2]
+        })
         embed.setColor(process.env.bot1Embed_Color)
         return embed
 
@@ -401,7 +420,6 @@ app.post('/api/v1/skip_song', async (req, res) => {
     await client.shard.broadcastEval(async (c, {
         req_body
     }) => {
-        const getRandomPhrase = require('./utils/getRandomPhrase');
         const {
             MessageEmbed,
             Discord
@@ -410,7 +428,11 @@ app.post('/api/v1/skip_song', async (req, res) => {
         if (!player) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(getRandomPhrase(client.language.SKIP[1]), req_body[3]);
+                .setFooter({
+                    text: client.language.SKIP[1][1],
+                    iconURL: req_body[3]
+                });
+
             return errorembed
         }
         if (player.voiceChannel != req_body[4]) return;
@@ -420,7 +442,10 @@ app.post('/api/v1/skip_song', async (req, res) => {
         if (!player.queue.current) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(client.language.RESUME[2], req_body[3]);
+                .setFooter({
+                    text: client.language.RESUME[2],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
 
@@ -439,7 +464,10 @@ app.post('/api/v1/skip_song', async (req, res) => {
             .setColor(process.env.bot1Embed_Color)
             .setTitle(c.language.SUCCESSEMBED)
             .setDescription(`${title} ${c.language.SKIP[4]}`)
-            .setFooter(req_body[1] + "#" + req_body[2], req_body[3]);
+            .setFooter({
+                text: req_body[1] + "#" + req_body[2],
+                iconURL: req_body[3]
+            });
         return embed
 
     }, {
@@ -462,11 +490,13 @@ app.post('/api/v1/automix', async (req, res) => {
         } = require('discord.js');
         const sc = req_body[0][0];
 
-        const getRandomPhrase = require('./utils/getRandomPhrase');
         if (!req_body[4]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(getRandomPhrase(c.language.AUTOMIX[1]), req_body[3]);
+                .setFooter({
+                    text: c.language.AUTOMIX[1][1],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
 
@@ -487,9 +517,10 @@ app.post('/api/v1/automix', async (req, res) => {
         if (!playerCanal) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(c.language.PLAY[1],
-                    req_body[3]
-                );
+                .setFooter({
+                    text: c.language.PLAY[1],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
 
@@ -497,7 +528,10 @@ app.post('/api/v1/automix', async (req, res) => {
         if (playerCanal && playerCanal.id && req_body[4] && playerCanal.id != req_body[4]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(c.language.PLAY[2], req_body[3]);
+                .setFooter({
+                    text: c.language.PLAY[2],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
 
@@ -519,7 +553,10 @@ app.post('/api/v1/automix', async (req, res) => {
                 if (!player.queue.current) player.desroy();
                 const errorembed = new MessageEmbed()
                     .setColor(15548997)
-                    .setFooter(c.language.AUTOMIX[3], req_body[3]);
+                    .setFooter({
+                        text: c.language.AUTOMIX[3],
+                        iconURL: req_body[3]
+                    });
                 return errorembed
             case "PLAYLIST_LOADED": {
                 player.queue.add(result.tracks);
@@ -555,7 +592,10 @@ app.post('/api/v1/automix', async (req, res) => {
             case "LOAD_FAILED":
                 const errorembed2 = new MessageEmbed()
                     .setColor(15548997)
-                    .setFooter(c.language.AUTOMIX[3], req_body[3]);
+                    .setFooter({
+                        text: c.language.AUTOMIX[3],
+                        iconURL: req_body[3]
+                    });
                 return errorembed2
         }
         return embed
@@ -583,11 +623,13 @@ app.post('/api/v1/247automix', async (req, res) => {
         } = require('discord.js');
         const sc = req_body[0][0];
 
-        const getRandomPhrase = require('./utils/getRandomPhrase');
         if (!req_body[4]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(getRandomPhrase(c.language.AUTOMIX[1]), req_body[3]);
+                .setFooter({
+                    text: c.language.AUTOMIX[1][1],
+                    iconURL: req_body[3]
+                });
             return errorembed
         }
 
@@ -616,12 +658,11 @@ app.post('/api/v1/247automix', async (req, res) => {
                 voiceChannel: player.voiceChannel
             }
         }).then(async channels => {
-            const getRandomPhrase = require('./utils/getRandomPhrase');
             let playerCanal = channels.find(c => c)
             if (!playerCanal) {
                 const errorembed = new MessageEmbed()
                     .setColor(15548997)
-                    .setFooter(getRandomPhrase(c.language.AUTOMIX[1]), req_body[3]);
+                    .setFooter(c.language.AUTOMIX[1][1], req_body[3]);
                 return errorembed
             }
 
@@ -665,9 +706,8 @@ app.post('/api/v1/247automix', async (req, res) => {
                         player.queue.totalSize === playlist.length
                     )
                         player.play();
-                    const getRandomPhrase = require('./utils/getRandomPhrase');
                     const e = new MessageEmbed()
-                        .setTitle(getRandomPhrase(c.language["247AUTOMIX"]))
+                        .setTitle(c.language["247AUTOMIX"][1])
                         .setColor(process.env.bot1Embed_Color)
                         .addField(
                             c.language.AUTOMIX[5],
@@ -1486,12 +1526,12 @@ app.post('/api/v1/247', async (req, res) => {
                 .setFooter(client.language.PLAY[11], req_body[4]);
             return errorembed
         }
-        const getRandomPhrase = require('./utils/getRandomPhrase');
+
         if (!player) {
 
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
-                .setFooter(getRandomPhrase(client.language.SKIP[1]), req_body[4]);
+                .setFooter(client.language.SKIP[1][1], req_body[4]);
             return errorembed
         }
         if (!player.queue.current) {
