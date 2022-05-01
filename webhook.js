@@ -11,7 +11,6 @@ const {
 const cors = require('cors')
 
 const client = require("./bot");
-const getRandomPhrase = require('./utils/getRandomPhrase');
 
 var helmet = require('helmet');
 app.use(helmet(), express.json(), cors());
@@ -402,7 +401,7 @@ app.post('/api/v1/skip_song', async (req, res) => {
     await client.shard.broadcastEval(async (c, {
         req_body
     }) => {
-
+        const getRandomPhrase = require('./utils/getRandomPhrase');
         const {
             MessageEmbed,
             Discord
@@ -463,6 +462,7 @@ app.post('/api/v1/automix', async (req, res) => {
         } = require('discord.js');
         const sc = req_body[0][0];
 
+        const getRandomPhrase = require('./utils/getRandomPhrase');
         if (!req_body[4]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
@@ -583,6 +583,7 @@ app.post('/api/v1/247automix', async (req, res) => {
         } = require('discord.js');
         const sc = req_body[0][0];
 
+        const getRandomPhrase = require('./utils/getRandomPhrase');
         if (!req_body[4]) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
@@ -615,6 +616,7 @@ app.post('/api/v1/247automix', async (req, res) => {
                 voiceChannel: player.voiceChannel
             }
         }).then(async channels => {
+            const getRandomPhrase = require('./utils/getRandomPhrase');
             let playerCanal = channels.find(c => c)
             if (!playerCanal) {
                 const errorembed = new MessageEmbed()
@@ -663,6 +665,7 @@ app.post('/api/v1/247automix', async (req, res) => {
                         player.queue.totalSize === playlist.length
                     )
                         player.play();
+                    const getRandomPhrase = require('./utils/getRandomPhrase');
                     const e = new MessageEmbed()
                         .setTitle(getRandomPhrase(c.language["247AUTOMIX"]))
                         .setColor(process.env.bot1Embed_Color)
@@ -1483,7 +1486,9 @@ app.post('/api/v1/247', async (req, res) => {
                 .setFooter(client.language.PLAY[11], req_body[4]);
             return errorembed
         }
+        const getRandomPhrase = require('./utils/getRandomPhrase');
         if (!player) {
+
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
                 .setFooter(getRandomPhrase(client.language.SKIP[1]), req_body[4]);
