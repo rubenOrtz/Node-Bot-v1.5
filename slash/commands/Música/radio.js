@@ -95,7 +95,15 @@ module.exports = class radio extends Command {
                       embeds: [embed],
                       ephemeral: false
                     });
-                  });
+                  }).catch(() => {
+                    const errorembed = new MessageEmbed()
+                      .setColor(15548997)
+                      .setFooter('El bot2 ha dado error en la radio', client.user.displayAvatarURL({
+                        dynamic: true
+                      }));
+                    webhookClient.send(errorembed);
+                    bot2missing(client, interaction, data, "radio")
+                  })
                 break;
 
               case process.env.bot3id:
@@ -112,7 +120,15 @@ module.exports = class radio extends Command {
                       embeds: [embed],
                       ephemeral: false
                     });
-                  });
+                  }).catch(() => {
+                    const errorembed = new MessageEmbed()
+                      .setColor(15548997)
+                      .setFooter('El bot3 ha dado error en la radio', client.user.displayAvatarURL({
+                        dynamic: true
+                      }));
+                    webhookClient.send(errorembed);
+                    bot3missing(client, interaction, data, "radio")
+                  })
                 break;
               case process.env.bot4id:
                 fetch(`http://localhost:${process.env.bot4Port}/api/v1/radio`, {
@@ -128,7 +144,15 @@ module.exports = class radio extends Command {
                       embeds: [embed],
                       ephemeral: false
                     });
-                  });
+                  }).catch(() => {
+                    const errorembed = new MessageEmbed()
+                      .setColor(15548997)
+                      .setFooter('El bot4 ha dado error en la radio', client.user.displayAvatarURL({
+                        dynamic: true
+                      }));
+                    webhookClient.send(errorembed);
+                    bot4missing(client, interaction, data, "radio")
+                  })
                 break;
             }
           })
