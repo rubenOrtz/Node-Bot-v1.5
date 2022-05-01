@@ -101,11 +101,11 @@ async run(client, interaction, args) {
               )
               .addField(
                 `😀 ${client.language.SERVERINFO[12]} [${emojis.size}]`,
-                `<:join:864104115076595762> ${
+                `<:pepeblink:967941236029788160> ${
                   client.language.SERVERINFO[13]
                 }: ${
                   emojis.filter((emoji) => !emoji.animated).size
-                }\n<a:flecha2:836295945423552522> ${
+                }\n<a:DJPeepo:969757766744944700> ${
                   client.language.SERVERINFO[14]
                 }: ${emojis.filter((emoji) => emoji.animated).size}`,
                 true
