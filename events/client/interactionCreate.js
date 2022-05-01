@@ -16,13 +16,12 @@ client.on("interactionCreate", async (interaction) => {
             .setDescription(desc)
 
         await interaction.reply({
-            embeds: [loadingEmbed],
-            ephemeral: true
+            embeds: [loadingEmbed]
         });
         const cmd = client.commands.find(cmd2 => cmd2.name === interaction.commandName);
 
         if (cmd) {
-            client.logger.silly(`Comando ${cmd.name} ejecutado por ${interaction.user.username}#${interaction.user.tag}`)
+            client.logger.info(`Comando ${cmd.name} ejecutado`)
 
             const args = [];
             for (let option of interaction.options.data) {

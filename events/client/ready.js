@@ -20,33 +20,33 @@ client.once('ready', async () => {
     });
   });
 
-//    await customCommand.delete();
-// const command = await interaction.guild.commands.cache.find (
-// (cmd) => cmd.name
-// commandName
-// );
-// await interaction.guild.commands.delete(command.id);
+  //    await customCommand.delete();
+  // const command = await interaction.guild.commands.cache.find (
+  // (cmd) => cmd.name
+  // commandName
+  // );
+  // await interaction.guild.commands.delete(command.id);
 
-const rest = new REST({
-  version: '9'
-}).setToken(process.env.token);
-(async () => {
-  try {
+  const rest = new REST({
+    version: '9'
+  }).setToken(process.env.token);
+  (async () => {
+    try {
       await rest.put(
-          Routes.applicationGuildCommands(client.user.id, "862635336165097483"), {
-              body: client.commands
-          },
+        Routes.applicationCommands(client.user.id), {
+          body: client.commands
+        },
       );
       client.logger.debug('Application commands registrados correctamente.');
-  } catch (error) {
+    } catch (error) {
       if (error) console.error(error);
-  }
-})();
+    }
+  })();
 
-    client.logger.debug(`${client.user.username} ✅`)
-    CreateManager(client).then(() => {
-        client.on('raw', async (d) => {
-            client.manager.updateVoiceState(d)
-        })
+  client.logger.debug(`${client.user.username} ✅`)
+  CreateManager(client).then(() => {
+    client.on('raw', async (d) => {
+      client.manager.updateVoiceState(d)
     })
+  })
 })

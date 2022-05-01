@@ -5,6 +5,7 @@ const Discord = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
 const Spotify = require("erela.js-spotify");
 const fetch = require('node-fetch')
+require('dotenv').config()
 module.exports = async (client) => {
   try {
     function formatDuration(client, duration) {
@@ -17,7 +18,7 @@ module.exports = async (client) => {
 
     client.manager = new Manager({
         nodes: [{
-          host: "51.161.86.217",
+          host: process.env.IP,
           port: 2333,
           password: "youshallnotpass",
         }, ],
