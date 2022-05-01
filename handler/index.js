@@ -11,12 +11,6 @@ const Logger = require('../utils/console');
 const {
     connect
 } = require("mongoose");
-const {
-    REST
-} = require('@discordjs/rest');
-const {
-    Routes
-} = require('discord-api-types/v9');
 
 module.exports = async (client) => {
     const eventFiles = await globPromise(`${process.cwd()}/events/**/*.js`);
@@ -58,21 +52,6 @@ module.exports = async (client) => {
         //     .setDescription(command.description)
 
         //  })
-                         const rest = new REST({
-                             version: '9'
-                         }).setToken(process.env.token);
-                         (async () => {
-                             try {
-                                 await rest.put(
-                                     Routes.applicationGuildCommands(client.user.id, "862635336165097483"), {
-                                         body: client.commands
-                                     },
-                                 );
-                                 client.logger.debug('Application commands registrados correctamente.');
-                             } catch (error) {
-                                 if (error) console.error(error);
-                             }
-                         })();
         // await guild.commands.set(arrayOfSlashCommands).then((cmd) => {
         //     const getRoles = (commandName) => {
         //         const permissions = arrayOfSlashCommands.find((x) => x.name === commandName).permissions;

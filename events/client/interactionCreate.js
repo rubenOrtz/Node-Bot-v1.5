@@ -19,7 +19,7 @@ client.on("interactionCreate", async (interaction) => {
             embeds: [loadingEmbed],
             ephemeral: true
         });
-        const cmd = client.commands.get(interaction.commandName);
+        const cmd = client.commands.find(cmd2 => cmd2.name === interaction.commandName);
 
         if (cmd) {
             client.logger.silly(`Comando ${cmd.name} ejecutado por ${interaction.user.username}#${interaction.user.tag}`)

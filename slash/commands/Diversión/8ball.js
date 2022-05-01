@@ -9,7 +9,7 @@ const Command = require('../../../structures/command.js');
 module.exports = class ball extends Command {
    constructor(client) {
       super(client, {
-         name: 'ball',
+         name: '8ball',
          description: 'Ask the magic 8ball a question',
          name_localizations: {
             'es-ES': 'ball',

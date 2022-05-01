@@ -1,6 +1,12 @@
 const client = require("../../bot");
 const CreateManager = require("../../utils/music/player")
 const customCmdModel = require("../../models/customCmds");
+const {
+  REST
+} = require('@discordjs/rest');
+const {
+  Routes
+} = require('discord-api-types/v9');
 
 client.once('ready', async () => {
 
@@ -21,6 +27,21 @@ client.once('ready', async () => {
 // );
 // await interaction.guild.commands.delete(command.id);
 
+const rest = new REST({
+  version: '9'
+}).setToken(process.env.token);
+(async () => {
+  try {
+      await rest.put(
+          Routes.applicationGuildCommands(client.user.id, "862635336165097483"), {
+              body: client.commands
+          },
+      );
+      client.logger.debug('Application commands registrados correctamente.');
+  } catch (error) {
+      if (error) console.error(error);
+  }
+})();
 
     client.logger.debug(`${client.user.username} ✅`)
     CreateManager(client).then(() => {
