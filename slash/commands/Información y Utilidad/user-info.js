@@ -177,9 +177,10 @@ module.exports = class userinfo extends Command {
             );
         if (member.joinedAt)
             embed.addField(
-                "<:join:864104115076595762>" + client.language.USERINFO[4],
-                "```" + `${moment(member.joinedAt).format("LL LTS")}` + "```",
-                true
+              "<:Discord_Emoji_Black:970394989785931866>" +
+                client.language.USERINFO[4],
+              "```" + `${moment(member.joinedAt).format("LL LTS")}` + "```",
+              true
             );
         if (member.roles)
             embed.addField(
