@@ -2,7 +2,9 @@ const Event = require('../../structures/event');
 const {
     setTimeout: sleep
 } = require('node:timers/promises');
-const { isGeneratorFunction } = require('node:util/types');
+const {
+    isGeneratorFunction
+} = require('node:util/types');
 
 module.exports = class ShardMessage extends Event {
     constructor(...args) {
@@ -36,15 +38,12 @@ module.exports = class ShardMessage extends Event {
                                         } 
                                         */
                                         const channel = c.channels.cache.get(player.options.textChannel)
-                                        if(channel) {
-                                            console.log("Sended with cache")
-                                            console.log(channel)
+                                        if (channel) {
                                             channel.send({
                                                 content: c.language.REBOOTMESSAGE
                                             })
                                         } else {
                                             c.channels.fetch(player.options.textchannel).then((channel) => {
-                                                console.log("channel fetched")
                                                 channel.send({
                                                     content: c.language.REBOOTMESSAGE
                                                 })
@@ -66,47 +65,47 @@ module.exports = class ShardMessage extends Event {
                                 if (++s < manager.shards.size && shardDelay > 0) promises.push(sleep(shardDelay));
                                 await Promise.all(promises).then(async () => {
                                     return await manager.broadcastEval(async (c, context) => {
-                                        var interval3 = setInterval(async function() {
-                                            if(c.manager) {
+                                        var interval3 = setInterval(async function () {
+                                            if (c.manager) {
                                                 clearInterval(interval3)
-                                        return await Promise.resolve(
-                                            await c.manager.nodes.map((node) => {
-                                                var interval = setInterval(function () {
-                                                    if (node.stats.uptime > 0) {
-                                                        clearInterval(interval)
-                                                        if (context !== []) {
-                                                            context.forEach(async (player2) => {
-                                                                const player = c.manager.create({
-                                                                    guild: player2.options.guild,
-                                                                    voiceChannel: player2.options.voiceChannel,
-                                                                    textChannel: player2.options.textChannel,
-                                                                    selfDeafen: true,
-                                                                });
-                                                                player.connect(node.id)
-                                                                let i = 0;
-                                                                player2.queue.reverse()
-                                                                player2.queue.shift()
-                                                                await Promise.all(player2.queue.map(async (track) => {
-                                                                    if (!track || !track.title) return
-                                                                    let uri = await c.manager.search(player2.queue[i].identifier, player2.queue[i].requester)
-                                                                    i++
-                                                                    return await player.queue.add(uri.tracks[0])
-                                                                })).then(() => {
-                                                                    player.play()
-                                                                })
-                                                                var interval2 = setInterval(function () {
-                                                                    if (player2.isStream || !player2.isSeekeable) clearInterval(interval2)
-                                                                    if (player2.position > 0) {
-                                                                        clearInterval(interval2)
-                                                                        player.seek(player2.position)
-                                                                    }
-                                                                }, 200)
-                                                            })
-                                                        }
-                                                    }
-                                                }, 200)
-                                            }))
-                                        } 
+                                                return await Promise.resolve(
+                                                    await c.manager.nodes.map((node) => {
+                                                        var interval = setInterval(function () {
+                                                            if (node.stats.uptime > 0) {
+                                                                clearInterval(interval)
+                                                                if (context !== []) {
+                                                                    context.forEach(async (player2) => {
+                                                                        const player = c.manager.create({
+                                                                            guild: player2.options.guild,
+                                                                            voiceChannel: player2.options.voiceChannel,
+                                                                            textChannel: player2.options.textChannel,
+                                                                            selfDeafen: true,
+                                                                        });
+                                                                        player.connect(node.id)
+                                                                        let i = 0;
+                                                                        player2.queue.reverse()
+                                                                        player2.queue.shift()
+                                                                        await Promise.all(player2.queue.map(async (track) => {
+                                                                            if (!track || !track.title) return
+                                                                            let uri = await c.manager.search(player2.queue[i].identifier, player2.queue[i].requester)
+                                                                            i++
+                                                                            return await player.queue.add(uri.tracks[0])
+                                                                        })).then(() => {
+                                                                            player.play()
+                                                                        })
+                                                                        var interval2 = setInterval(function () {
+                                                                            if (player2.isStream || !player2.isSeekeable) clearInterval(interval2)
+                                                                            if (player2.position > 0) {
+                                                                                clearInterval(interval2)
+                                                                                player.seek(player2.position)
+                                                                            }
+                                                                        }, 200)
+                                                                    })
+                                                                }
+                                                            }
+                                                        }, 200)
+                                                    }))
+                                            }
                                         }, 200)
                                     }, {
                                         shard: shard.id,
@@ -126,7 +125,6 @@ module.exports = class ShardMessage extends Event {
                 }
                 break;
             case 'statcord':
-                console.log("statcord")
                 if (!manager.statcord) return;
                 if (manager.statcordHandlerRegistered) return;
                 manager.statcordHandlerRegistered = true;

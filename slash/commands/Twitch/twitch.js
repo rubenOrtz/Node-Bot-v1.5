@@ -287,7 +287,7 @@ module.exports = class twitch extends Command {
                                 "name": "streamer",
                                 "description": "Username of the streamer that you want to get notified",
                                 "required": true
-                            },{
+                            }, {
                                 "type": 3,
                                 "name": "message",
                                 "description": "Message to send, you can use variables like {link} or {streamer}",
@@ -436,7 +436,10 @@ module.exports = class twitch extends Command {
                                                 embeds: [embed],
                                                 content: `Test Message`
                                             });
-                                            interaction.editReply({content: "The notification has been created for this guild, we will send in the channel a test notification so u can see how it looks like", embeds: []});
+                                            interaction.editReply({
+                                                content: "The notification has been created for this guild, we will send in the channel a test notification so u can see how it looks like",
+                                                embeds: []
+                                            });
                                         }).catch(e => {
                                             client.logger.error(e);
                                             if (e.response.status.status === 409) {
@@ -469,7 +472,7 @@ module.exports = class twitch extends Command {
                                                     color: color,
                                                     title: interaction.options.getString('title').toString(),
                                                     description: interaction.options.getString('description').toString(),
-                                                    footer: interaction.options.getString('footer').toString(),
+                                                    footer: interaction.options.getString('footer'),
                                                     footericon: interaction.options.getString('footericon'),
                                                     thumbnail: interaction.options.getString('thumbnail'),
                                                     titleurl: interaction.options.getString('titleurl'),
@@ -479,7 +482,10 @@ module.exports = class twitch extends Command {
                                             }
                                         });
                                         s.save();
-                                        interaction.editReply({content: `Añadido a la base de datos correctamente, a partir de ahora recibiras las notificaciones en ${interaction.options.getChannel('channel').toString()}`, embeds: []});
+                                        interaction.editReply({
+                                            content: `Añadido a la base de datos correctamente, a partir de ahora recibiras las notificaciones en ${interaction.options.getChannel('channel').toString()}`,
+                                            embeds: []
+                                        });
                                         const tituloEmbed = interaction.options.getString('title').toString().replace('{streamer}', s.display_name)
                                         const descripcionEmbed = interaction.options.getString('description').toString().replace('{streamer}', s.display_name).replace('{link}', `https://twitch.tv/${s.display_name}`)
                                         const embed = new MessageEmbed()
@@ -513,7 +519,10 @@ module.exports = class twitch extends Command {
                                         });
                                     } else {
                                         if (s.Interacciones.Guilds[s.Interacciones.Guilds.findIndex(i => i.id === interaction.guild.id)]) {
-                                            interaction.editReply({content: "Esta guild ya está registrada en nuestra base de datos con este streamer. ",  embeds: []})
+                                            interaction.editReply({
+                                                content: "Esta guild ya está registrada en nuestra base de datos con este streamer. ",
+                                                embeds: []
+                                            })
                                         }
                                     }
                                 }
@@ -538,14 +547,18 @@ module.exports = class twitch extends Command {
                                         s.save().then((s) => {
                                             axios.delete(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
                                                 headers: headers,
-                                                data :{
+                                                data: {
                                                     "id": s.id,
-                                                }}).then(async (res2) => {
-                                                interaction.editReply({content: `Se ha eliminado la subscripción correctamente`,  embeds: []})
+                                                }
+                                            }).then(async (res2) => {
+                                                interaction.editReply({
+                                                    content: `Se ha eliminado la subscripción correctamente`,
+                                                    embeds: []
+                                                })
                                             })
                                         })
                                     }
-                                } else if(!s) return
+                                } else if (!s) return
                             })
                         })
                         break;
@@ -599,7 +612,10 @@ module.exports = class twitch extends Command {
                                             interaction.member.send({
                                                 content: message
                                             });
-                                            interaction.editReply({content: "The notification has been created, we will send you a private message with a test notification so u can see how it looks like",  embeds: []});
+                                            interaction.editReply({
+                                                content: "The notification has been created, we will send you a private message with a test notification so u can see how it looks like",
+                                                embeds: []
+                                            });
                                         }).catch(e => {
                                             client.logger.error(e);
                                             if (e.response.status.status === 409) {
@@ -633,9 +649,15 @@ module.exports = class twitch extends Command {
                                         interaction.member.send({
                                             content: message
                                         });
-                                        interaction.editReply({content: "The notification has been created, we will send you a private message with a test notification so u can see how it looks like", embeds: []});
+                                        interaction.editReply({
+                                            content: "The notification has been created, we will send you a private message with a test notification so u can see how it looks like",
+                                            embeds: []
+                                        });
                                     } else {
-                                        interaction.editReply({content: "Usted ya está registrado para recibir notificaciones privadas de este streamer.",  embeds: []})
+                                        interaction.editReply({
+                                            content: "Usted ya está registrado para recibir notificaciones privadas de este streamer.",
+                                            embeds: []
+                                        })
                                     }
                                 }
                             })
@@ -660,17 +682,24 @@ module.exports = class twitch extends Command {
                                             s.save().then((s) => {
                                                 axios.delete(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
                                                     headers: headers,
-                                                    data :{
+                                                    data: {
                                                         "id": s.id,
-                                                    }}).then(async (res2) => {
-                                                    interaction.editReply({content:`Se ha eliminado la subscripción correctamente`,  embeds: []})
+                                                    }
+                                                }).then(async (res2) => {
+                                                    interaction.editReply({
+                                                        content: `Se ha eliminado la subscripción correctamente`,
+                                                        embeds: []
+                                                    })
                                                 })
                                             })
                                         } else {
-                                            interaction.editReply({content:"Usted no está registrado para recibir notificaciones privadas de este streamer.",  embeds: []})
+                                            interaction.editReply({
+                                                content: "Usted no está registrado para recibir notificaciones privadas de este streamer.",
+                                                embeds: []
+                                            })
                                         }
                                     }
-                                } else if(!s) return
+                                } else if (!s) return
                             })
                         })
                         break;

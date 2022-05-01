@@ -321,13 +321,13 @@ app.post('/api/v1/get_queue', async (req, res) => {
             MessageEmbed,
             Discord
         } = require('discord.js');
-        const player = client.manager.players.get(req_body[3]);
+        const player = client.manager.players.get(req_body[0]);
         if (!player || !player.queue.current) {
             const errorembed = new MessageEmbed()
                 .setColor(15548997)
                 .setFooter({
                     text: client.language.QUEUE[1],
-                    iconURL: req_body[2]
+                    iconURL: req_body[3]
                 })
             return errorembed
         }
@@ -346,20 +346,20 @@ app.post('/api/v1/get_queue', async (req, res) => {
             return new MessageEmbed()
                 .setTitle(client.language.QUEUE[9])
                 .setDescription(`🎧 ${client.language.QUEUE[3]}\n[${title}](${uri}) [<@${requester.userId}>]`)
-                .setAuthor(`${client.language.QUEUE[6]} ${req_body[4]} ${client.language.QUEUE[7]}`, "https://i.imgur.com/CCqeomm.gif")
+                .setAuthor(`${client.language.QUEUE[6]} ${req_body[1]} ${client.language.QUEUE[7]}`, "https://i.imgur.com/CCqeomm.gif")
                 .setColor(process.env.bot1Embed_Color)
         }
 
         let x;
 
-        if (req_body[5] && req_body[5][1] > 1) {
-            x = Math.floor(req_body[5][1]) * 10 + 1;
+        if (req_body[7] && req_body[7][1] > 1) {
+            x = Math.floor(req_body[7][1]) * 10 + 1;
         } else {
             x = Math.floor(10);
         }
         let i;
         let j;
-        if (req_body[5] && req_body[5][1] > 1) {
+        if (req_body[7] && req_body[7][1] > 1) {
             i = x - 12;
             j = x - 11;
         } else {
@@ -382,7 +382,7 @@ app.post('/api/v1/get_queue', async (req, res) => {
                 .setColor(15548997)
                 .setFooter({
                     text: client.language.QUEUE[4],
-                    iconURL: req_body[2]
+                    iconURL: req_body[3]
                 })
             return errorembed
         }
@@ -394,20 +394,20 @@ app.post('/api/v1/get_queue', async (req, res) => {
             dynamic: true
         }));
         embed.setAuthor(
-            `${client.language.QUEUE[6]} ${req_body[4]} ${client.language.QUEUE[7]} (${Math.floor(x / 10)} / ${Math.floor(
+            `${client.language.QUEUE[6]} ${req_body[2]} ${client.language.QUEUE[7]} (${Math.floor(x / 10)} / ${Math.floor(
                 (player.queue.slice(1).length + 10) / 10
                 )})`,
             "https://i.imgur.com/CCqeomm.gif"
         );
         embed.setFooter({
             text: `${client.language.QUEUE[5]} ${player.queue.length}`,
-            iconURL: req_body[2]
+            iconURL: req_body[3]
         })
         embed.setColor(process.env.bot1Embed_Color)
         return embed
 
     }, {
-        shard: req.body[8],
+        shard: req.body[6],
         context: {
             req_body: req.body
         }
@@ -881,9 +881,24 @@ app.post('/api/v1/now_playing', async (req, res) => {
 });
 
 app.post('/api/v1/radio', async (req, res) => {
-    let embed = await client.shard.broadcastEval(async (client, {
+    await client.shard.broadcastEval(async (client, {
         req_body
     }) => {
+        const {
+            MessageEmbed,
+            Discord
+        } = require('discord.js');
+        const sc = req_body[7][0];
+
+        if (!req_body[4]) {
+            const errorembed = new MessageEmbed()
+                .setColor(15548997)
+                .setFooter({
+                    text: client.language.AUTOMIX[1][1],
+                    iconURL: req_body[5]
+                });
+            return errorembed
+        }
 
         const player = client.manager.create({
             guild: req_body[1],
@@ -892,152 +907,135 @@ app.post('/api/v1/radio', async (req, res) => {
             selfDeafen: true,
         });
 
+
         if (player.state !== "CONNECTED") {
             player.connect();
             player.setVolume(35)
         }
 
-        let embed = await client.shard.broadcastEval((client, {
-            voiceChannel
-        }) => {
-            const channel = client.channels.cache.get(voiceChannel)
-            return channel;
-        }, {
-            shard: client.shard.id,
-            context: {
-                voiceChannel: player.voiceChannel
-            }
-        }).then(async channels => {
+        const playerCanal = client.channels.cache.get(player.voiceChannel);
+        if (!playerCanal) {
+            const errorembed = new MessageEmbed()
+                .setColor(15548997)
+                .setFooter({
+                    text: client.language.PLAY[1],
+                    iconURL: req_body[5]
+                });
+            return errorembed
+        }
 
-            const {
-                MessageEmbed,
-                Discord
-            } = require('discord.js');
 
-            function isUrl(s) {
-                var regexp =
-                    /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-                return regexp.test(s);
-            };
+        if (playerCanal && playerCanal.id && req_body[6] && playerCanal.id != req_body[6]) {
+            const errorembed = new MessageEmbed()
+                .setColor(15548997)
+                .setFooter({
+                    text: client.language.PLAY[2],
+                    iconURL: req_body[5]
+                });
+            return errorembed
+        }
 
-            let playerCanal = channels.find(c => c)
+        const query = req_body[7].join(" ");
+        if (!req_body[7][0]) {
+            const errorembed = new MessageEmbed()
+                .setColor(15548997)
+                .setFooter(client.language.RADIO[3], req_body[5]);
+            return errorembed
+        }
+        let volume = 100;
 
-            if (!playerCanal) {
-                const errorembed = new MessageEmbed()
-                    .setColor(15548997)
-                    .setFooter(client.language.PLAY[1], req_body[5]);
-                return errorembed
-            }
-            if (playerCanal && playerCanal.id && req_body[6] && playerCanal.id != req_body[6]) {
-                const errorembed = new MessageEmbed()
-                    .setColor(15548997)
-                    .setFooter(client.language.PLAY[2], req_body[5]);
-                return errorembed
-            }
-            const query = req_body[7].join(" ");
-            if (!req_body[7][0]) {
-                const errorembed = new MessageEmbed()
-                    .setColor(15548997)
-                    .setFooter(client.language.RADIO[3], req_body[5]);
-                return errorembed
-            }
-            let volume = 100;
+        let filter = {
+            limit: 1,
+            by: "name",
+            searchterm: query,
+        };
+        let str = "";
+        let name = "";
+        let favicon = "";
+        let homepage = "";
+        let codec = "";
+        let bitrate = "";
+        let error
 
-            let filter = {
-                limit: 1,
-                by: "name",
-                searchterm: query,
-            };
-            let str = "";
-            let name = "";
-            let favicon = "";
-            let homepage = "";
-            let codec = "";
-            let bitrate = "";
+        const {
+            RadioBrowserApi,
+            StationSearchType,
+        } = require("radio-browser-api");
+        const api = new RadioBrowserApi("NodeBot");
 
-            const {
-                RadioBrowserApi,
-                StationSearchType,
-            } = require("radio-browser-api");
-            const api = new RadioBrowserApi("NodeBot");
-
-            let argumentos = [];
-            try {
-
-                await api
-                    .getStationsBy(StationSearchType.byName, req_body[7].join(" "), 1)
-                    .then((radio) => {
-                        if (!radio[0]) {
-                            const errorembed = new MessageEmbed()
-                                .setColor(15548997)
-                                .setFooter(client.language.RADIO[4] + ". " + client.language.RADIO[5], req_body[5]);
-                            return errorembed
-                        }
-                        str = radio[0].urlResolved;
-                        name = radio[0].name;
-                        favicon = radio[0].favicon;
-                        homepage = radio[0].homepage;
-                        codec = radio[0].codec;
-                        bitrate = radio[0].bitrate;
-                    })
-                    .catch((e) => {
-                        console.log(e)
-                        const errorembed = new MessageEmbed()
-                            .setColor(15548997)
-                            .setFooter(client.language.RADIO[11], req_body[5]);
-                        const simplestDiscordWebhook = require('simplest-discord-webhook')
-                        let webhookClient = new simplestDiscordWebhook(process.env.errorWebhookURL);
-                        const errorembed2 = new MessageEmbed()
-                            .setColor(15548997)
-                            .setFooter("Error en el comando webhook.js (1)", client.user.displayAvatarURL({
-                                dynamic: true
-                            }));
-                        webhookClient.send(errorembed2)
-                        return errorembed
-                    });
-
-                let embed = await client.manager.search(str, req_body[8]).then(async (res) => {
-                    switch (res.loadType) {
-                        case "TRACK_LOADED":
-                            player.queue.add(res.tracks[0]);
-                            const embed = new MessageEmbed()
-                                .setTitle(client.language.RADIO[12])
-                                .setColor(process.env.bot1Embed_Color)
-                                .addField(client.language.RADIO[6], `${name}`)
-                                .addField(client.language.RADIO[9], `${codec}`, true)
-                                .addField(client.language.RADIO[10], `${bitrate}`, true);
-                            if (favicon && isUrl(favicon)) embed.setThumbnail(favicon);
-
-                            if (homepage) embed.addField(
-                                client.language.RADIO[7],
-                                `${client.language.RADIO[8]}(${homepage})`,
-                                true
-                            )
-                            if (!player.playing) {
-                                player.play();
-                                player.setVolume(volume || 50);
-                                player.setTrackRepeat(false);
-                                player.setQueueRepeat(false);
-                            }
-                            return embed
-                        case "LOAD_FAILED":
-                            const errorembed = new MessageEmbed()
-                                .setColor(15548997)
-                                .setFooter(client.language.RADIO[11], req_body[5]);
-                            return errorembed
-                    }
-                })
-                return embed
-            } catch (e) {
+        let argumentos = [];
+        await api.getStationsBy(StationSearchType.byName, req_body[7].join(" "), 1)
+            .then((radio) => {
+                if (!radio[0]) {
+                    const errorembed = new MessageEmbed()
+                        .setColor(15548997)
+                        .setFooter(client.language.RADIO[4] + ". " + client.language.RADIO[5], req_body[5]);
+                    error = errorembed
+                }
+                str = radio[0].urlResolved;
+                name = radio[0].name;
+                favicon = radio[0].favicon;
+                homepage = radio[0].homepage;
+                codec = radio[0].codec;
+                bitrate = radio[0].bitrate;
+            })
+            .catch((e) => {
                 console.log(e)
                 const errorembed = new MessageEmbed()
                     .setColor(15548997)
                     .setFooter(client.language.RADIO[11], req_body[5]);
+                const simplestDiscordWebhook = require('simplest-discord-webhook')
+                let webhookClient = new simplestDiscordWebhook(process.env.errorWebhookURL);
+                const errorembed2 = new MessageEmbed()
+                    .setColor(15548997)
+                    .setFooter("Error en el comando webhook.js (1)", client.user.displayAvatarURL({
+                        dynamic: true
+                    }));
+                webhookClient.send(errorembed2)
                 return errorembed
+            });
+        if (error) return error
 
+        let embed = await client.manager.search(str, req_body[8]).then(async (res) => {
+            switch (res.loadType) {
+                case "TRACK_LOADED":
+                    player.queue.add(res.tracks[0]);
+                    const embed = new MessageEmbed()
+                        .setTitle(client.language.RADIO[12])
+                        .setColor(process.env.bot1Embed_Color)
+                        .addField(client.language.RADIO[6], `${name}`)
+                        .addField(client.language.RADIO[9], `${codec}`, true)
+                        .addField(client.language.RADIO[10], `${bitrate}`, true);
+
+                    function isUrl(s) {
+                        var regexp =
+                            /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+                        return regexp.test(s);
+                    };
+                    if (favicon && isUrl(favicon)) embed.setThumbnail(favicon);
+
+                    if (homepage) embed.addField(
+                        client.language.RADIO[7],
+                        `${client.language.RADIO[8]}(${homepage})`,
+                        true
+                    )
+                    if (!player.playing) {
+                        player.play();
+                        player.setVolume(volume || 50);
+                        player.setTrackRepeat(false);
+                        player.setQueueRepeat(false);
+                    }
+                    return embed
+                case "LOAD_FAILED":
+                    const errorembed = new MessageEmbed()
+                        .setColor(15548997)
+                        .setFooter(client.language.RADIO[11], req_body[5]);
+                    return errorembed
             }
         })
         return embed
+
+
 
 
     }, {
@@ -1048,7 +1046,6 @@ app.post('/api/v1/radio', async (req, res) => {
     }).then((embed) => {
         res.status(200).send(embed)
     })
-    return embed
 });
 
 app.post('/api/v1/shuffle', async (req, res) => {

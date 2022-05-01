@@ -185,12 +185,13 @@ module.exports = class radio extends Command {
             embeds: [embed],
             ephemeral: false
           })
-        }).catch(() => {
+        }).catch((e) => {
+          console.log(e)
           const errorembed2 = new MessageEmbed()
             .setColor(15548997)
             .setFooter("Error en el comando radio (2)", client.user.displayAvatarURL({
               dynamic: true
-            }));
+            }))
           webhookClient.send(errorembed2)
           bot1missing(client, interaction, data, "radio")
         })

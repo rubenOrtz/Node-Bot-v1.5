@@ -69,7 +69,6 @@ module.exports = class nowplaying extends Command {
     } else {
       usedBotID = await getUsedBot(interaction)
     }
-
     if (!usedBotID) {
       const errorembed = new MessageEmbed()
         .setColor(15548997)
@@ -94,6 +93,7 @@ module.exports = class nowplaying extends Command {
     await interaction.guild.members.fetch(usedBotID).then(member => {
       data.push(member.voice)
       data.push(interaction.guild.shardId)
+      data.push(args)
       switch (usedBotID) {
         case process.env.bot1id:
           fetch(`http://localhost:${process.env.bot1Port}/api/v1/get_queue`, {
@@ -109,7 +109,7 @@ module.exports = class nowplaying extends Command {
               interaction.editReply({
                 embeds: [embed]
               });
-            });
+            })
           break;
         case process.env.bot2id:
           fetch(`http://localhost:${process.env.bot2Port}/api/v1/get_queue`, {
@@ -211,7 +211,6 @@ module.exports = class nowplaying extends Command {
     }).catch(e => {
       const errorembed = new MessageEmbed()
         .setColor(15548997)
-        .setTitle(client.language.ERROREMBED)
         .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL({
           dynamic: true
         }));
@@ -227,7 +226,7 @@ module.exports = class nowplaying extends Command {
           errorembed.setDescription(`Node4 <:logonodeazul:968094477866659850> ${client.language.NOTINSERVER}(https://discord.com/api/oauth2/authorize?client_id=853888393917497384&permissions=137475976512&scope=bot)`)
           break
       }
-
+      console.log(errorEmbed)
       interaction.editReply({
         embeds: [errorembed]
       });
