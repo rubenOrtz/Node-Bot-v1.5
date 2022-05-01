@@ -699,7 +699,7 @@ app.post('/api/v1/247automix', async (req, res) => {
                     result.tracks.shift()
                     let playlist = result.tracks.splice(1, 2)
 
-                    player.queue.add(result.tracks);
+                    player.queue.add(playlist);
                     if (
                         !player.playing &&
                         !player.paused &&
