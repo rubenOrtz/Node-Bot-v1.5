@@ -224,8 +224,8 @@ module.exports = class play extends Command {
                 .setFooter("Error en el comando play (5)", client.user.displayAvatarURL({
                   dynamic: true
                 }));
-              webhookClient.send(errorembed2)
               bot1missing(client, interaction, data, "new_player")
+              webhookClient.send(errorembed2)
             })
         })
     } else {
@@ -265,8 +265,8 @@ module.exports = class play extends Command {
               .setFooter("Error en el comando play (6)", client.user.displayAvatarURL({
                 dynamic: true
               }));
-            webhookClient.send(errorembed2)
             bot2missing(client, interaction, data, "new_player")
+            webhookClient.send(errorembed2)
           })
       } else {
         let bot3Availability;
@@ -309,8 +309,8 @@ module.exports = class play extends Command {
                 .setFooter("Error en el comando play (7)", client.user.displayAvatarURL({
                   dynamic: true
                 }));
-              webhookClient.send(errorembed2)
               bot3missing(client, interaction, data, "new_player")
+              webhookClient.send(errorembed2)
             })
         } else {
           let bot4Availability;
@@ -356,8 +356,8 @@ module.exports = class play extends Command {
                   .setFooter("Error en el comando play (8)", client.user.displayAvatarURL({
                     dynamic: true
                   }));
-                webhookClient.send(errorembed2)
                 bot4missing(client, interaction, data, "new_player")
+                webhookClient.send(errorembed2)
               })
           } else {
             bot4missing(client, interaction, data, "new_player")
