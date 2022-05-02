@@ -4,7 +4,7 @@ const {
 const client = require("../../bot");
 
 client.on("voiceStateUpdate", async (oldState, newState) => {
-    if(client.manager.players) {
+    if(client.manager) {
     const player = client.manager.players.get(oldState.guild.id);
 
     if (!player || player.stayInVoice || !oldState.guild.me.voice.channel || !newState.guild.me.voice.channel) return;
