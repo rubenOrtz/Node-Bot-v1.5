@@ -321,6 +321,15 @@ app.post('/api/v1/get_queue', async (req, res) => {
             MessageEmbed,
             Discord
         } = require('discord.js');
+        if (!client.manager) {
+            const errorembed = new MessageEmbed()
+                .setColor(15548997)
+                .setFooter({
+                    text: client.language.QUEUE[1],
+                    iconURL: req_body[3]
+                })
+            return errorembed
+        }
         const player = client.manager.players.get(req_body[0]);
         if (!player || !player.queue.current) {
             const errorembed = new MessageEmbed()
