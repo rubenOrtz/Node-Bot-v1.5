@@ -73,21 +73,21 @@ async function getOnlineBots() {
     const axios = require('axios')
 
     let bot2Emoji = ''
-    await axios.get(`http://51.161.86.217:${process.env.bot2Port}`).then(res => {
+    await axios.get(`http://${process.env.IP}:${process.env.bot2Port}`).then(res => {
         bot2Emoji = "<:botOn:894171595365560340>"
     }).catch(err => {
         bot2Emoji = "<:botOff:969759818569093172>"
     })
 
     let bot3Emoji = ''
-    await axios.get(`http://51.161.86.217:${process.env.bot3Port}`).then(res => {
+    await axios.get(`http://${process.env.IP}:${process.env.bot3Port}`).then(res => {
         bot3Emoji = "<:botOn:894171595365560340>"
     }).catch(err => {
         bot3Emoji = "<:botOff:969759818569093172>"
     })
 
     let bot4Emoji = ''
-    await axios.get(`http://51.161.86.217:${process.env.bot4Port}`).then(res => {
+    await axios.get(`http://${process.env.IP}:${process.env.bot4Port}`).then(res => {
         bot4Emoji = "<:botOn:894171595365560340>"
     }).catch(err => {
         bot4Emoji = "<:botOff:969759818569093172>"

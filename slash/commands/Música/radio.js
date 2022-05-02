@@ -82,7 +82,7 @@ module.exports = class radio extends Command {
           member.voice.channel.members.forEach(listener => {
             switch (listener.user.id) {
               case process.env.bot2id:
-                fetch(`http://51.161.86.217:${process.env.bot2Port}/api/v1/radio`, {
+                fetch(`http://${process.env.IP}:${process.env.bot2Port}/api/v1/radio`, {
                     method: "POST",
                     body: JSON.stringify(data),
                     headers: {
@@ -107,7 +107,7 @@ module.exports = class radio extends Command {
                 break;
 
               case process.env.bot3id:
-                fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/radio`, {
+                fetch(`http://${process.env.IP}:${process.env.bot3Port}/api/v1/radio`, {
                     method: "POST",
                     body: JSON.stringify(data),
                     headers: {
@@ -131,7 +131,7 @@ module.exports = class radio extends Command {
                   })
                 break;
               case process.env.bot4id:
-                fetch(`http://51.161.86.217:${process.env.bot4Port}/api/v1/radio`, {
+                fetch(`http://${process.env.IP}:${process.env.bot4Port}/api/v1/radio`, {
                     method: "POST",
                     body: JSON.stringify(data),
                     headers: {
@@ -171,7 +171,7 @@ module.exports = class radio extends Command {
         console.log(e);
       });
     if (bot1Availability || addToQueue) {
-      fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/radio`, {
+      fetch(`http://${process.env.IP}:${process.env.bot1Port}/api/v1/radio`, {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
@@ -211,7 +211,7 @@ module.exports = class radio extends Command {
           bot2Availability = false;
         });
       if (bot2Availability || addToQueue2) {
-        fetch(`http://51.161.86.217:${process.env.bot2Port}/api/v1/radio`, {
+        fetch(`http://${process.env.IP}:${process.env.bot2Port}/api/v1/radio`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -255,7 +255,7 @@ module.exports = class radio extends Command {
           });
 
         if (bot3Availability || addToQueue3) {
-          fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/radio`, {
+          fetch(`http://${process.env.IP}:${process.env.bot3Port}/api/v1/radio`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
@@ -302,7 +302,7 @@ module.exports = class radio extends Command {
 
           if (bot4Availability || addToQueue4) {
             fetch(
-                `http://51.161.86.217:${process.env.bot4Port}/api/v1/radio`, {
+                `http://${process.env.IP}:${process.env.bot4Port}/api/v1/radio`, {
                   method: "POST",
                   body: JSON.stringify(data),
                   headers: {

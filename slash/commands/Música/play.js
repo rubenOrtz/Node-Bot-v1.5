@@ -82,7 +82,7 @@ module.exports = class play extends Command {
           member.voice.channel.members.forEach(listener => {
             switch (listener.user.id) {
               case process.env.bot2id:
-                fetch(`http://51.161.86.217:${process.env.bot2Port}/api/v1/new_player`, {
+                fetch(`http://${process.env.IP}:${process.env.bot2Port}/api/v1/new_player`, {
                     method: "POST",
                     body: JSON.stringify(data),
                     headers: {
@@ -113,7 +113,7 @@ module.exports = class play extends Command {
                   })
 
               case process.env.bot3id:
-                fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/new_player`, {
+                fetch(`http://${process.env.IP}:${process.env.bot3Port}/api/v1/new_player`, {
                     method: "POST",
                     body: JSON.stringify(data),
                     headers: {
@@ -143,7 +143,7 @@ module.exports = class play extends Command {
                     });
                   })
               case process.env.bot4id:
-                fetch(`http://51.161.86.217:${process.env.bot4Port}/api/v1/new_player`, {
+                fetch(`http://${process.env.IP}:${process.env.bot4Port}/api/v1/new_player`, {
                     method: "POST",
                     body: JSON.stringify(data),
                     headers: {
@@ -189,7 +189,7 @@ module.exports = class play extends Command {
         console.log(e);
       });
     if (bot1Availability || addToQueue) {
-      fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/new_player`, {
+      fetch(`http://${process.env.IP}:${process.env.bot1Port}/api/v1/new_player`, {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
@@ -204,7 +204,7 @@ module.exports = class play extends Command {
             ephemeral: false
           })
         }).catch((e) => {
-          fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/new_player`, {
+          fetch(`http://${process.env.IP}:${process.env.bot1Port}/api/v1/new_player`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
@@ -244,7 +244,7 @@ module.exports = class play extends Command {
           bot2Availability = false;
         });
       if (bot2Availability || addToQueue2) {
-        fetch(`http://51.161.86.217:${process.env.bot2Port}/api/v1/new_player`, {
+        fetch(`http://${process.env.IP}:${process.env.bot2Port}/api/v1/new_player`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -288,7 +288,7 @@ module.exports = class play extends Command {
           });
 
         if (bot3Availability || addToQueue3) {
-          fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/new_player`, {
+          fetch(`http://${process.env.IP}:${process.env.bot3Port}/api/v1/new_player`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
@@ -335,7 +335,7 @@ module.exports = class play extends Command {
 
           if (bot4Availability || addToQueue4) {
             fetch(
-                `http://51.161.86.217:${process.env.bot4Port}/api/v1/new_player`, {
+                `http://${process.env.IP}:${process.env.bot4Port}/api/v1/new_player`, {
                   method: "POST",
                   body: JSON.stringify(data),
                   headers: {

@@ -101,7 +101,7 @@ module.exports = class queue extends Command {
       data.push(member.voice)
       switch (usedBotID) {
         case process.env.bot1id:
-          fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/get_queue`, {
+          fetch(`http://${process.env.IP}:${process.env.bot1Port}/api/v1/get_queue`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
@@ -133,7 +133,7 @@ module.exports = class queue extends Command {
             })
           break;
         case process.env.bot2id:
-          fetch(`http://51.161.86.217:${process.env.bot2Port}/api/v1/get_queue`, {
+          fetch(`http://${process.env.IP}:${process.env.bot2Port}/api/v1/get_queue`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
@@ -165,7 +165,7 @@ module.exports = class queue extends Command {
             })
           break;
         case process.env.bot3id:
-          fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/get_queue`, {
+          fetch(`http://${process.env.IP}:${process.env.bot3Port}/api/v1/get_queue`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
@@ -197,7 +197,7 @@ module.exports = class queue extends Command {
             })
           break;
         case process.env.bot4id:
-          fetch(`http://51.161.86.217:${process.env.bot4Port}/api/v1/get_queue`, {
+          fetch(`http://${process.env.IP}:${process.env.bot4Port}/api/v1/get_queue`, {
               method: "POST",
               body: JSON.stringify(data),
               headers: {
