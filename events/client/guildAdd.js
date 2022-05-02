@@ -4,7 +4,7 @@ const {
   WebhookClient
 } = require("discord.js");
 
-client.on("guildCreate", async (guild) => {
+client.on("guildCreate", (guild) => {
   //client.user.displayAvatarURL()
   const embed = new MessageEmbed()
     .setColor(process.env.bot1Embed_Color)
