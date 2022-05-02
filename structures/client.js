@@ -26,6 +26,7 @@ module.exports = class Client extends Discord.Client {
         this.snipes = new Map();
         this.logger = Logger;
         this.config = process.env;
+              this.devs = ["817466918357172285", "155411408752869377", "219676455204814851"]
     }
     async login(token = this.token) {
         if(!token) throw new Error("No hay Token");
