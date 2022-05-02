@@ -81,6 +81,58 @@ client.on("interactionCreate", async (interaction) => {
                     });
                 })
             }
+                    //CHECK PERMISSIONS *COPIADO DE OTRO BOT XD
+        const permissionHelpMessage = `Hey! Tienes problemas? Entra en nuestro servidor.`;
+        if(cmd.permissions) {
+        cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
+        if (cmd.permissions.botPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.me.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                if (missingPermissions.includes('SEND_MESSAGES')) {
+                    const user = client.users.cache.get('id');
+                    if (!user) return;
+                    else if (!user.dmChannel) await user.createDM();
+                    await user.dmChannel.send(`No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                }
+                return interaction.reply(`No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+            }
+        }
+
+        if (cmd.permissions.userPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                return interaction.reply(`No tienes los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**`);
+            }
+        }
+        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !interaction.member.voice.channel.permissionsFor(client.user).has(Discord.Permissions.CONNECT)) return interaction.reply('No tengo permisos de conectarme al canal de voz donde estás')
+        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !interaction.member.voice.channel.permissionsFor(client.user).has(Discord.Permissions.SPEAK)) return interaction.reply('No tengo permisos de hablar en el canal de voz donde estás')
+        //CHECK PERMISSION
+        if (cmd.permissions.permission === 'dev' && !client.devs.includes(interaction.user.id)) return;
+    }
+
+        //COOLDOWN, TAMBIÉN COPIADO DE OTRO BOT EKISDEEEEE
+        if (!client.devs.includes(interaction.user.id)) {
+            if (!cooldowns.has(commandName)) {
+                cooldowns.set(commandName, new Discord.Collection());
+            }
+            const now = Date.now();
+            const timestamps = cooldowns.get(commandName);
+            const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
+            if (!timestamps.has(interaction.user.id)) {
+                timestamps.set(interaction.user.id, now);
+                setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+            }
+            else {
+                const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+                const timeLeft = (expirationTime - now) / 1000;
+                if (now < expirationTime && timeLeft > 0.9) {
+                    return interaction.reply({ content: `Heyy! Ejecutas los coamndos demasiado rápido! Espera ${timeLeft.toFixed(1)} segundos para ejecutar \`${commandName}\`` });
+                }
+                timestamps.set(interaction.user.id, now);
+                setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+            }
+        }
+        //COOLDOWN
 
             cmd.run(client, interaction, args);
         } else {
