@@ -22,7 +22,7 @@ module.exports = async function bot2missing(client, interaction, data, reqEndpoi
         });
 
     if (bot3Availability || addToQueue3) {
-        fetch(`http://localhost:${process.env.bot3Port}/api/v1/${reqEndpoint}`, {
+        fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/${reqEndpoint}`, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {

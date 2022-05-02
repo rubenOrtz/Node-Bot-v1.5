@@ -53,7 +53,7 @@ module.exports = class shuffle extends Command {
 
     switch (usedBotID) {
       case process.env.bot1id:
-        fetch(`http://localhost:${process.env.bot1Port}/api/v1/shuffle`, {
+        fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/shuffle`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -85,7 +85,7 @@ module.exports = class shuffle extends Command {
           })
         break;
       case process.env.bot2id:
-        fetch(`http://localhost:${process.env.bot2Port}/api/v1/shuffle`, {
+        fetch(`http://51.161.86.217:${process.env.bot2Port}/api/v1/shuffle`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -117,7 +117,7 @@ module.exports = class shuffle extends Command {
           })
         break;
       case process.env.bot3id:
-        fetch(`http://localhost:${process.env.bot3Port}/api/v1/shuffle`, {
+        fetch(`http://51.161.86.217:${process.env.bot3Port}/api/v1/shuffle`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -149,7 +149,7 @@ module.exports = class shuffle extends Command {
           })
         break;
       case process.env.bot4id:
-        fetch(`http://localhost:${process.env.bot4Port}/api/v1/shuffle`, {
+        fetch(`http://51.161.86.217:${process.env.bot4Port}/api/v1/shuffle`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

@@ -36,7 +36,7 @@ module.exports = {
           data.push(member.voice);
         });
 
-      fetch(`http://localhost:${process.env.bot1Port}/api/v1/get_queue`, {
+      fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/get_queue`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

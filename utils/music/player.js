@@ -242,7 +242,7 @@ module.exports = async (client) => {
             data.push(member.voice);
             data.push(guild.shardId)
 
-            fetch(`http://localhost:${process.env.bot1Port}/api/v1/247automix`, {
+            fetch(`http://51.161.86.217:${process.env.bot1Port}/api/v1/247automix`, {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {

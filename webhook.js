@@ -17,7 +17,7 @@ app.use(helmet(), express.json(), cors());
 
 app.listen(
     PORT,
-    () => console.log(`It's alive on http://localhost:${PORT}`)
+    () => console.log(`It's alive on http://51.161.86.217:${PORT}`)
 )
 
 app.get('', function (req, res) {
