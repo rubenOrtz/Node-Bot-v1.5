@@ -94,6 +94,7 @@ module.exports = class ShardMessage extends Event {
                                                                             player.play()
                                                                         })
                                                                         var interval2 = setInterval(function () {
+                                                                            if(player2.stayInVc == true) player.stayInVc == true
                                                                             if (player2.isStream || !player2.isSeekeable) clearInterval(interval2)
                                                                             if (player2.position > 0) {
                                                                                 clearInterval(interval2)
