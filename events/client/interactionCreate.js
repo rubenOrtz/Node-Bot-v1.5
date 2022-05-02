@@ -5,6 +5,7 @@ const {
     MessageEmbed
 } = require('discord.js');
 const getRandomPhrase = require("../../utils/getRandomPhrase");
+const cooldowns = new Discord.Collection();
 
 client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
