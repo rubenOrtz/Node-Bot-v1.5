@@ -4,12 +4,14 @@ const customCmdModel = require("../../models/customCmds");
 const {
     MessageEmbed
 } = require('discord.js');
-const getRandomPhrase = require("../../utils/getRandomPhrase");
 const Discord = require("discord.js");
+const getRandomPhrase = require("../../utils/getRandomPhrase");
+const Statcord = require('statcord.js');
 const cooldowns = new Discord.Collection();
 
 client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
+        let commandName = interaction.commandName
         let desc = client.language.NODETHINKING[Math.floor(Math.random() * (Object.keys(client.language.NODETHINKING).length + 1) + 1)]
         if (!desc) desc = client.language.NODETHINKING[1]
 
@@ -83,7 +85,8 @@ client.on("interactionCreate", async (interaction) => {
                     });
                 })
             }
-                    //CHECK PERMISSIONS *COPIADO DE OTRO BOT XD
+                        console.log(cmd)
+        //CHECK PERMISSIONS *COPIADO DE OTRO BOT XD
         const permissionHelpMessage = `Hey! Tienes problemas? Entra en nuestro servidor.`;
         if(cmd.permissions) {
         cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
@@ -96,20 +99,20 @@ client.on("interactionCreate", async (interaction) => {
                     else if (!user.dmChannel) await user.createDM();
                     await user.dmChannel.send(`No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
                 }
-                return interaction.reply(`No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                return interaction.editReply({content: `No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`, embeds: []});
             }
         }
 
         if (cmd.permissions.userPermissions.length > 0) {
             const missingPermissions = cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm));
             if (missingPermissions.length > 0) {
-                return interaction.reply(`No tienes los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**`);
+                return interaction.editReply({content: `No tienes los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(', ')}**`, embeds: []});
             }
         }
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !interaction.member.voice.channel.permissionsFor(client.user).has(Discord.Permissions.CONNECT)) return interaction.reply('No tengo permisos de conectarme al canal de voz donde estás')
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !interaction.member.voice.channel.permissionsFor(client.user).has(Discord.Permissions.SPEAK)) return interaction.reply('No tengo permisos de hablar en el canal de voz donde estás')
+        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !interaction.member.voice.channel.permissionsFor(client.user).has(Discord.Permissions.CONNECT)) return interaction.editReply({content: 'No tengo permisos de conectarme al canal de voz donde estás', embeds: []})
+        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !interaction.member.voice.channel.permissionsFor(client.user).has(Discord.Permissions.SPEAK)) return interaction.editReply({content: 'No tengo permisos de hablar en el canal de voz donde estás', embeds: []})
         //CHECK PERMISSION
-        if (cmd.permissions.permission === 'dev' && !client.devs.includes(interaction.user.id)) return;
+                if (cmd.permissions.dev === true && !client.devs.includes(interaction.user.id)) return interaction.editReply({content: 'Comando exclusivo para devs', embeds: []})
     }
 
         //COOLDOWN, TAMBIÉN COPIADO DE OTRO BOT EKISDEEEEE
@@ -128,15 +131,15 @@ client.on("interactionCreate", async (interaction) => {
                 const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
                 const timeLeft = (expirationTime - now) / 1000;
                 if (now < expirationTime && timeLeft > 0.9) {
-                    return interaction.reply({ content: `Heyy! Ejecutas los coamndos demasiado rápido! Espera ${timeLeft.toFixed(1)} segundos para ejecutar \`${commandName}\`` });
+                    return interaction.editReply({ content: `Heyy! Ejecutas los coamndos demasiado rápido! Espera ${timeLeft.toFixed(1)} segundos para ejecutar \`${commandName}\``, embeds: [] });
                 }
                 timestamps.set(interaction.user.id, now);
                 setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
             }
         }
         //COOLDOWN
-
             cmd.run(client, interaction, args);
+             if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(cmd.name, interaction.member.id, client);
         } else {
             const cmd = await customCmdModel.findOne({
                 guildId: interaction.guild.id,
