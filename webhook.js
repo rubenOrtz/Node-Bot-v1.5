@@ -6,6 +6,7 @@ const {
     MessageEmbed,
     Discord
 } = require('discord.js');
+const TwitchModel = require("./models/twitch.js")
 
 
 const cors = require('cors')
@@ -312,7 +313,7 @@ app.post('/api/v1/new_player', async (req, res) => {
     })
 });
 app.post('/api/v1/sendtwitchmessage', async (req, res) => {
-    console.log(req.body)
+    console.logger.log(req.body)
     let event = req.body
     TwitchModel.findOne({
         broadcaster_user_id: event.broadcaster_user_id /*parseInt(req.body.subscription.condition.broadcaster_user_id)*/
