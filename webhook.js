@@ -6,6 +6,7 @@ const {
     MessageEmbed,
     Discord
 } = require('discord.js');
+const TwitchModel = require("./models/twitch.js")
 
 
 const cors = require('cors')
@@ -311,6 +312,64 @@ app.post('/api/v1/new_player', async (req, res) => {
         res.status(200).send(embed)
     })
 });
+app.post('/api/v1/sendtwitchmessage', async (req, res) => {
+    let event = req.body
+    TwitchModel.findOne({
+        broadcaster_user_id: event.broadcaster_user_id /*parseInt(req.body.subscription.condition.broadcaster_user_id)*/
+    }).then((s, err) => {
+        if (!s) return Logger.error("Error, no existe este usuario en nuestra base de datos");
+        if (s) {
+            s.Interacciones.Guilds.forEach((guild) => {
+                client.shard.broadcastEval((c, context) => {
+                    if(c.guilds.cache.get(context.guild.id)) {
+                        const {MessageEmbed} = require('discord.js')
+                        const guild2 = c.guilds.cache.get(context.guild.id)
+                        if(context.guild.customMessage.embed && context.guild.customMessage.embed !== []) {
+                            const tituloEmbed = context.guild.customMessage.embed.title.toString().replace('{streamer}', context.s.display_name)
+                            const descripcionEmbed = context.guild.customMessage.embed.description.toString().replace('{streamer}', context.s.display_name).replace('{link}', `https://twitch.tv/${context.s.display_name}`)
+                            const embed = new MessageEmbed()
+                            .setTitle(tituloEmbed)
+                            .setColor(context.guild.customMessage.embed.color)
+                            .setDescription(descripcionEmbed)
+                            .setAuthor("Node Bot", "https://cdn.discordapp.com/avatars/828771710676500502/c0e14a183dead07a277b0aa907ebc270.webp?size=4096","https://nodebot.xyz")
+                            .setImage(`https://static-cdn.jtvnw.net/previews-ttv/live_user_${context.s.login}-1920x1080.jpg`);
+                            if(context.guild.customMessage.embed.footer && context.guild.customMessage.embed.footericon) {
+                                embed.setFooter({text: context.guild.customMessage.embed.footer.replace('{streamer}', context.s.display_name).replace('{link}', `https://twitch.tv/${context.s.display_name}`), iconURL: context.guild.customMessage.embed.footericon})
+                            } else if(context.guild.customMessage.embed.footer && !context.guild.customMessage.embed.footericon) {
+                                embed.setFooter({text: context.guild.customMessage.embed.footer.replace('{streamer}', context.s.display_name).replace('{link}', `https://twitch.tv/${context.s.display_name}`)})
+                            }
+                            if(context.guild.customMessage.embed.thumbnail) {
+                                embed.setThumbnail(context.guild.customMessage.embed.thumbnail)
+                            } 
+                            if(context.guild.customMessage.embed.titleurl) {
+                                embed.setURL(context.guild.customMessage.embed.titleurl.replace('{link}', `https://twitch.tv/${context.s.display_name}`))
+                            } 
+                            if(context.guild.customMessage.embed.timestamp == true) {
+                                context.embed.setTimestamp()
+                            } 
+                            guild2.channels.cache.get(context.guild.textChannel.replace('<#', '').replace('>', '')).send({embeds: [embed]});
+                    } 
+                    if(context.guild.customMessage.link && context.guild.customMessage.link !== []) {
+
+                    }
+                    }
+                }, { context: { guild, s } })
+            })
+            s.Interacciones.Users.forEach((user) => {
+                    client.users.fetch(user.id).then((u) => {
+                        if(u) {
+                            if(user.id && s.Users != []) {
+                                    const message = user.message.toString().replace('{streamer}', s.display_name).replace('{link}', `https://twitch.tv/${s.display_name}`)
+                                    u.send({
+                                        content: message
+                                    });
+                        } 
+                        }
+                    })
+            })
+        }
+    })
+})
 
 app.post('/api/v1/get_queue', async (req, res) => {
     await client.shard.broadcastEval(async (client, {
@@ -321,6 +380,15 @@ app.post('/api/v1/get_queue', async (req, res) => {
             MessageEmbed,
             Discord
         } = require('discord.js');
+        if (!client.manager) {
+            const errorembed = new MessageEmbed()
+                .setColor(15548997)
+                .setFooter({
+                    text: client.language.QUEUE[1],
+                    iconURL: req_body[3]
+                })
+            return errorembed
+        }
         const player = client.manager.players.get(req_body[0]);
         if (!player || !player.queue.current) {
             const errorembed = new MessageEmbed()

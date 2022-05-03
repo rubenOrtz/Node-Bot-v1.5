@@ -4,7 +4,7 @@ const {
   WebhookClient
 } = require("discord.js");
 
-client.on("guildDelete", async (guild) => {
+client.on("guildDelete", (guild) => {
   const embed = new MessageEmbed()
     .setColor(15548997)
     .setDescription(`<a:redarrow:969932619229855754> **${guild.name}** (-${guild.memberCount})`);

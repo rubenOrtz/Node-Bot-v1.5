@@ -2,10 +2,14 @@ const client = require("../../bot");
 const UserModel = require("../../models/user");
 const customCmdModel = require("../../models/customCmds");
 const { MessageEmbed } = require("discord.js");
+const Discord = require("discord.js");
 const getRandomPhrase = require("../../utils/getRandomPhrase");
+const Statcord = require("statcord.js");
+const cooldowns = new Discord.Collection();
 
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isCommand()) {
+    let commandName = interaction.commandName;
     let desc =
       client.language.NODETHINKING[
         Math.floor(
@@ -16,17 +20,17 @@ client.on("interactionCreate", async (interaction) => {
       ];
     if (!desc) desc = client.language.NODETHINKING[1];
 
-    // const loadingEmbed = new MessageEmbed()
-    //   .setColor(process.env.bot1Embed_Color)
-    //   .setDescription(desc);
+    const loadingEmbed = new MessageEmbed()
+      .setColor(process.env.bot1Embed_Color)
+      .setDescription(desc);
 
-    // await interaction
-    //   .reply({
-    //     embeds: [loadingEmbed],
-    //   })
-    //   .catch((e) => {
-    //     client.logger.error(e);
-    //   });
+    await interaction
+      .reply({
+        embeds: [loadingEmbed],
+      })
+      .catch((e) => {
+        client.logger.error(e);
+      });
     const cmd = client.commands.find(
       (cmd2) => cmd2.name === interaction.commandName
     );
@@ -92,113 +96,124 @@ client.on("interactionCreate", async (interaction) => {
           });
         });
       }
+      console.log(cmd);
+      //CHECK PERMISSIONS *COPIADO DE OTRO BOT XD
+      const permissionHelpMessage = `Hey! Tienes problemas? Entra en nuestro servidor.`;
+      if (cmd.permissions) {
+        cmd.permissions.botPermissions.concat(["SEND_MESSAGES", "EMBED_LINKS"]);
+        if (cmd.permissions.botPermissions.length > 0) {
+          const missingPermissions = cmd.permissions.botPermissions.filter(
+            (perm) => !interaction.guild.me.permissions.has(perm)
+          );
+          if (missingPermissions.length > 0) {
+            if (missingPermissions.includes("SEND_MESSAGES")) {
+              const user = client.users.cache.get("id");
+              if (!user) return;
+              else if (!user.dmChannel) await user.createDM();
+              await user.dmChannel.send(
+                `No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(
+                  ", "
+                )}**\n${permissionHelpMessage}`
+              );
+            }
+            return interaction.editReply({
+              content: `No tengo los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(
+                ", "
+              )}**\n${permissionHelpMessage}`,
+              embeds: [],
+            });
+          }
+        }
 
-      const permissionsFlags = [
-        "CREATE_INSTANT_INVITE",
-        "KICK_MEMBERS",
-        "BAN_MEMBERS",
-        "ADMINISTRATOR",
-        "MANAGE_CHANNELS",
-        "MANAGE_GUILD",
-        "ADD_REACTIONS",
-        "VIEW_AUDIT_LOG",
-        "PRIORITY_SPEAKER",
-        "STREAM",
-        "VIEW_CHANNEL",
-        "SEND_MESSAGES",
-        "SEND_TTS_MESSAGES",
-        "MANAGE_MESSAGES",
-        "EMBED_LINKS",
-        "ATTACH_FILES",
-        "READ_MESSAGE_HISTORY",
-        "MENTION_EVERYONE",
-        "USE_EXTERNAL_EMOJIS",
-        "VIEW_GUILD_INSIGHTS",
-        "CONNECT",
-        "SPEAK",
-        "MUTE_MEMBERS",
-        "DEAFEN_MEMBERS",
-        "MOVE_MEMBERS",
-        "USE_VAD",
-        "CHANGE_NICKNAME",
-        "MANAGE_NICKNAMES",
-        "MANAGE_ROLES",
-        "MANAGE_WEBHOOKS",
-        "MANAGE_EMOJIS_AND_STICKERS",
-        "USE_APPLICATION_COMMANDS",
-        "REQUEST_TO_SPEAK",
-        "MANAGE_EVENTS",
-        "MANAGE_THREADS",
-        "CREATE_PUBLIC_THREADS",
-        "CREATE_PRIVATE_THREADS",
-        "USE_EXTERNAL_STICKERS",
-        "SEND_MESSAGES_IN_THREADS",
-        "USE_EMBEDDED_ACTIVITIES",
-        "MODERATE_MEMBERS",
-      ];
-
-      if (cmd.userPerms && cmd.userPerms.length) {
-        let invalidPermissionsFlags = [];
-        for (const permission of cmd.userPerms) {
-          if (!permissionsFlags.includes(permission)) {
-            return client.logger.warn(`Invalid Permissions: ${permission}`);
-          }
-          if (!interaction.member.permissions.has(permission)) {
-            invalidPermissionsFlags.push(permission);
+        if (cmd.permissions.userPermissions.length > 0) {
+          const missingPermissions = cmd.permissions.userPermissions.filter(
+            (perm) => !interaction.member.permissions.has(perm)
+          );
+          if (missingPermissions.length > 0) {
+            return interaction.editReply({
+              content: `No tienes los permisos necesarios para ejecutar este comando, Permisos necesarios: **${missingPermissions.join(
+                ", "
+              )}**`,
+              embeds: [],
+            });
           }
         }
-        if (invalidPermissionsFlags.length) {
-          const noPermissionEmbed = new MessageEmbed()
-            .setColor(process.env.COLOR)
-            .setTitle(`Permisos insuficientes.`)
-            .setDescription(`No tienes permisos.`)
-            .addField(
-              `Permisos requeridos:`,
-              `\`${invalidPermissionsFlags.join(" ")}\``
-            )
-            .setFooter({
-              text: `${interaction.user.username}`,
-              iconURL: interaction.user.displayAvatarURL(),
-            })
-            .setTimestamp();
-          return interaction.reply({
-            embeds: [noPermissionEmbed],
-            ephemeral: true,
+        if (
+          cmd.permissions.botPermissions.includes(
+            Discord.Permissions.CONNECT
+          ) &&
+          !interaction.member.voice.channel
+            .permissionsFor(client.user)
+            .has(Discord.Permissions.CONNECT)
+        )
+          return interaction.editReply({
+            content:
+              "No tengo permisos de conectarme al canal de voz donde estás",
+            embeds: [],
           });
-        }
-      }
-      if (cmd.botPerms && cmd.botPerms.length) {
-        let invalidmePermissionsFlags = [];
-        for (const permission of cmd.botPerms) {
-          if (!permissionsFlags.includes(permission)) {
-            return client.logger.warn(`Invalid Permissions: ${permission}`);
-          }
-          if (!interaction.guild.me.permissions.has(permission)) {
-            invalidmePermissionsFlags.push(permission);
-          }
-        }
-        if (invalidmePermissionsFlags.length) {
-          const noPermissionmeEmbed = new MessageEmbed()
-            .setColor(process.env.COLOR)
-            .setTitle(`Necesito permisos`)
-            .setDescription(`No tengo suficientes permisos.`)
-            .addField(
-              `Necesito este permiso:`,
-              `\`${invalidmePermissionsFlags.join(" ")}\``
-            )
-            .setFooter({
-              text: `${interaction.user.username}`,
-              iconURL: interaction.user.displayAvatarURL(),
-            })
-            .setTimestamp();
-          return interaction.reply({
-            embeds: [noPermissionmeEmbed],
-            ephemeral: true,
+        if (
+          cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) &&
+          !interaction.member.voice.channel
+            .permissionsFor(client.user)
+            .has(Discord.Permissions.SPEAK)
+        )
+          return interaction.editReply({
+            content:
+              "No tengo permisos de hablar en el canal de voz donde estás",
+            embeds: [],
           });
-        }
+        //CHECK PERMISSION
+        if (
+          cmd.permissions.dev === true &&
+          !client.devs.includes(interaction.user.id)
+        )
+          return interaction.editReply({
+            content: "Comando exclusivo para devs",
+            embeds: [],
+          });
       }
 
+      //COOLDOWN, TAMBIÉN COPIADO DE OTRO BOT EKISDEEEEE
+      if (!client.devs.includes(interaction.user.id)) {
+        if (!cooldowns.has(commandName)) {
+          cooldowns.set(commandName, new Discord.Collection());
+        }
+        const now = Date.now();
+        const timestamps = cooldowns.get(commandName);
+        const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
+        if (!timestamps.has(interaction.user.id)) {
+          timestamps.set(interaction.user.id, now);
+          setTimeout(
+            () => timestamps.delete(interaction.user.id),
+            cooldownAmount
+          );
+        } else {
+          const expirationTime =
+            timestamps.get(interaction.user.id) + cooldownAmount;
+          const timeLeft = (expirationTime - now) / 1000;
+          if (now < expirationTime && timeLeft > 0.9) {
+            return interaction.editReply({
+              content: `Heyy! Ejecutas los coamndos demasiado rápido! Espera ${timeLeft.toFixed(
+                1
+              )} segundos para ejecutar \`${commandName}\``,
+              embeds: [],
+            });
+          }
+          timestamps.set(interaction.user.id, now);
+          setTimeout(
+            () => timestamps.delete(interaction.user.id),
+            cooldownAmount
+          );
+        }
+      }
+      //COOLDOWN
       cmd.run(client, interaction, args);
+      if (process.env.NODE_ENV == "production")
+        Statcord.ShardingClient.postCommand(
+          cmd.name,
+          interaction.member.id,
+          client
+        );
     } else {
       const cmd = await customCmdModel.findOne({
         guildId: interaction.guild.id,

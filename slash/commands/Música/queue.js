@@ -238,7 +238,6 @@ module.exports = class queue extends Command {
       webhookClient.send(errorembed2)
       const errorembed = new MessageEmbed()
         .setColor(15548997)
-        .setTitle(client.language.ERROREMBED)
         .setFooter(interaction.member.user.username + "#" + interaction.member.user.discriminator, interaction.member.displayAvatarURL({
           dynamic: true
         }));

@@ -11,7 +11,7 @@ const language = fs
 module.exports = class Client extends Discord.Client {
     constructor() {
         super({
-            partials: ["MESSAGE", "CHANNEL", "REACTION"],
+            partials: ["CHANNEL"],
             intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_VOICE_STATES", "GUILD_MESSAGE_REACTIONS"],
             allowedMentions: { parse: ['users', 'roles'], repliedUser: true },
             messageCacheMaxSize: 50,
@@ -25,7 +25,9 @@ module.exports = class Client extends Discord.Client {
         this.language = JSON.parse(language)
         this.snipes = new Map();
         this.logger = Logger;
+              this.statcordSongs = 0;
         this.config = process.env;
+              this.devs = ["817466918357172285", "155411408752869377", "219676455204814851"]
     }
     async login(token = this.token) {
         if(!token) throw new Error("No hay Token");
