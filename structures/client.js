@@ -11,7 +11,7 @@ const language = fs
 module.exports = class Client extends Discord.Client {
     constructor() {
         super({
-            partials: ["MESSAGE", "CHANNEL", "REACTION"],
+            partials: ["CHANNEL"],
             intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_VOICE_STATES", "GUILD_MESSAGE_REACTIONS"],
             allowedMentions: { parse: ['users', 'roles'], repliedUser: true },
             messageCacheMaxSize: 50,
