@@ -545,6 +545,7 @@ module.exports = class twitch extends Command {
                                     if (res.data.data[0]) {
                                         s.Interacciones.Guilds.splice(s.Interacciones.Guilds.findIndex(i => i.id === interaction.guild.id), 1)
                                         s.save().then((s) => {
+                                            if(s.Interacciones.Users.length == 0 && s.Interacciones.Guilds.length == 0) {
                                             axios.delete(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
                                                 headers: headers,
                                                 data: {
@@ -556,6 +557,7 @@ module.exports = class twitch extends Command {
                                                     embeds: []
                                                 })
                                             })
+                                        }
                                         })
                                     }
                                 } else if (!s) return
@@ -680,17 +682,19 @@ module.exports = class twitch extends Command {
                                         if (s.Interacciones.Users.findIndex(i => i.id === interaction.member.id) != -1) {
                                             s.Interacciones.Users.splice(s.Interacciones.Guilds.findIndex(i => i.id === interaction.member.id), 1)
                                             s.save().then((s) => {
-                                                axios.delete(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
-                                                    headers: headers,
-                                                    data: {
-                                                        "id": s.id,
-                                                    }
-                                                }).then(async (res2) => {
-                                                    interaction.editReply({
-                                                        content: `Se ha eliminado la subscripción correctamente`,
-                                                        embeds: []
-                                                    })
+                                                if(s.Interacciones.Users.length == 0 && s.Interacciones.Guilds.length == 0) {
+                                                    axios.delete(`https://api.twitch.tv/helix/eventsub/subscriptions`, {
+                                                        headers: headers,
+                                                        data: {
+                                                            "id": s.id,
+                                                        }
+                                                    }).then(async (res2) => {
+                                                        interaction.editReply({
+                                                            content: `Se ha eliminado la subscripción correctamente`,
+                                                            embeds: []
+                                                        })
                                                 })
+                                            }
                                             })
                                         } else {
                                             interaction.editReply({
