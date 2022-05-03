@@ -371,8 +371,8 @@ module.exports = class twitch extends Command {
                                             },
                                             "transport": {
                                                 "method": "webhook",
-                                                "callback": "https://twitchapi.nodebot.xyz/webhooks/callback",
-                                                "secret": "273823283ehywdh"
+                                                "callback": "https://api.nodebot.xyz/twitch/interaction/webhooks/callback",
+                                                "secret": "vTMtZYg8AyBegs3N8M3M"
                                             }
                                         }, {
                                             headers: headers,
@@ -586,8 +586,8 @@ module.exports = class twitch extends Command {
                                             },
                                             "transport": {
                                                 "method": "webhook",
-                                                "callback": "https://twitchapi.nodebot.xyz/webhooks/callback",
-                                                "secret": "273823283ehywdh"
+                                                "callback": "https://api.nodebot.xyz/twitch/interaction/webhooks/callback",
+                                                "secret": "vTMtZYg8AyBegs3N8M3M"
                                             }
                                         }, {
                                             headers: headers,
