@@ -6,7 +6,10 @@ const {
 } = require('discord.js');
 
 const Node = require('./structures/client.js');
+const discordModals = require("discord-modals"); // Define the discord-modals package!
 const client = new Node();
+
+discordModals(client);
 
 module.exports = client;
 
@@ -22,7 +25,6 @@ fs.readFile('./test.txt', 'utf8', function(err, data) {
     }
   
     if(data == "0") {
-        require('./Twitch/twitch.js')(client)
         require('./webhook.js')
     } else return
 

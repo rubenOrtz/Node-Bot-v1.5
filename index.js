@@ -15,7 +15,7 @@ const {
 
 const manager = new ShardingManager('./bot.js', {
   token: process.env.token,
-  totalShards: 2
+  totalShards: "auto"
 });
 // const manager = new ClusterManager('./bot.js', {
 //     token: process.env.TOKEN,

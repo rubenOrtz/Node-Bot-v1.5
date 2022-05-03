@@ -10,15 +10,15 @@ const {
 
 client.once('ready', async () => {
 
-  const cmds = await customCmdModel.find({});
-  cmds.forEach(async (cmd) => {
-    const guild = client.guilds.cache.get(cmd.guildId);
+  // const cmds = await customCmdModel.find({});
+  // cmds.forEach(async (cmd) => {
+  //   const guild = client.guilds.cache.get(cmd.guildId);
 
-    guild?.commands.create({
-      name: cmd.name,
-      description: cmd.description,
-    });
-  });
+  //   guild?.commands.create({
+  //     name: cmd.name,
+  //     description: cmd.description,
+  //   });
+  // });
 
   //    await customCommand.delete();
   // const command = await interaction.guild.commands.cache.find (
