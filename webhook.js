@@ -311,6 +311,9 @@ app.post('/api/v1/new_player', async (req, res) => {
         res.status(200).send(embed)
     })
 });
+app.post('/api/v1/sendtwitchmessage', async (req, res) => {
+
+});
 
 app.post('/api/v1/get_queue', async (req, res) => {
     await client.shard.broadcastEval(async (client, {
