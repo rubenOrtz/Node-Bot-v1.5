@@ -17,6 +17,34 @@ module.exports = class stayinvoice extends Command {
     super(client, {
       name: '247',
       description: 'Stay 24/7 in a voice channel',
+      options: [{
+        type: 3,
+        name: "bot",
+        description: "Bot to consult.",
+        name_localizations: {
+          "es-ES": "bot",
+        },
+        description_localizations: {
+          "es-ES": "Bot a consultar.",
+        },
+        choices: [{
+            name: "🤖 Node",
+            value: process.env.bot1id
+          },
+          {
+            name: "🤖 Node 2",
+            value: process.env.bot2id
+          },
+          {
+            name: "🤖 Node 3",
+            value: process.env.bot3id
+          },
+          {
+            name: "🤖 Node 4",
+            value: process.env.bot4id
+          },
+        ],
+      }, ],
       cooldown: 5,
     });
   }
