@@ -184,20 +184,23 @@ module.exports = class userinfo extends Command {
             );
         if (member.roles)
             embed.addField(
-                `<:lupablurple:863983093030060062>${client.language.USERINFO[14]}`,
-                `${member.roles.hoist
-                    ? member.roles.hoist
-                    : client.language.USERINFO[8]
-                }`,
-                true
+              `<:search:893553167801921547> ${client.language.USERINFO[14]}`,
+              `${
+                member.roles.hoist
+                  ? member.roles.hoist
+                  : client.language.USERINFO[8]
+              }`,
+              true
             );
         if (member.user.displayAvatarURL())
             embed.addField(
-                "<:linkblurple:863983092711817247> Avatar",
-                `[${client.language.USERINFO[15]}](${member.user.displayAvatarURL({
-                    dynamic: true,
-                })})`,
-                true
+              "<:8512blurplelink:971487113679884288> Avatar",
+              `[${client.language.USERINFO[15]}](${member.user.displayAvatarURL(
+                {
+                  dynamic: true,
+                }
+              )})`,
+              true
             );
         interaction.editReply({
             embeds: [embed]

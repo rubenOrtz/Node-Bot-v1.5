@@ -223,7 +223,9 @@ client.on("interactionCreate", async (interaction) => {
       if (!cmd)
         return interaction.editReply({
           content: "No se encontró el comando",
-          ephemeral: true,
+          embeds: [],
+          components: [],
+          files: []
         });
 
       interaction.editReply({

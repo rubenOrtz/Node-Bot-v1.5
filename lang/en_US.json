@@ -262,19 +262,19 @@
     "2": "My answer is",
     "3": "I'm not able to see any question...",
     "4": [
-       "Yes",
-       "Do not",
-       "Perhaps",
-       "Obviously",
-       "I say yes",
-       "I say no",
-       "Probably",
-       "I have my doubts...",
-       "Do not even doubt it",
-       "You didn't even need to ask ;)",
-       "Not at all...",
-       "I don `t believe..."
-     ]
+      "Yes",
+      "Do not",
+      "Perhaps",
+      "Obviously",
+      "I say yes",
+      "I say no",
+      "Probably",
+      "I have my doubts...",
+      "Do not even doubt it",
+      "You didn't even need to ask ;)",
+      "Not at all...",
+      "I don `t believe..."
+    ]
   },
   "RELOAD": "You don't have enough permissions to use this command.",
   "SEPARATOR_SET": {
@@ -695,11 +695,11 @@
   },
   "AUTOMIX": {
     "1": {
-       "1": "You need to join a voice channel to play music.",
-       "2": "You need to be on a voice channel to listen to music.",
-       "3": "You don't seem to be on any voice channel, how about joining one?",
-       "4": "To play music you must be on a voice channel"
-     },
+      "1": "You need to join a voice channel to play music.",
+      "2": "You need to be on a voice channel to listen to music.",
+      "3": "You don't seem to be on any voice channel, how about joining one?",
+      "4": "To play music you must be on a voice channel"
+    },
     "2": "Generating random playlist... <a:pepeRiendose:835905480160444466>",
     "3": "I couldn't find results.",
     "4": "Auto-Mix has been generated!",
@@ -768,10 +768,10 @@
   },
   "SKIP": {
     "1": {
-     "1": "There are no songs playing on your voice channel. Why don't you add one? <:pepeblink:967941236029788160>",
-     "2": "It sounds like you're not listening to music, how about we do it? <:pepeblink:967941236029788160>",
-     "3": "What are you doing that you don't listen to music? Add a song now :)"
-   },
+      "1": "There are no songs playing on your voice channel. Why don't you add one? <:pepeblink:967941236029788160>",
+      "2": "It sounds like you're not listening to music, how about we do it? <:pepeblink:967941236029788160>",
+      "3": "What are you doing that you don't listen to music? Add a song now :)"
+    },
     "2": "You are not on the same voice channel.",
     "3": "There aren't songs being played.",
     "4": "has been skipped."
@@ -1224,6 +1224,7 @@
   "PLAYER": {
     "stopMusic": "Stop",
     "pauseMusic": "Pause",
+    "resumeMusic": "Resume",
     "skipMusic": "Skip",
     "queueMusic": "Queue"
   },
@@ -1245,16 +1246,16 @@
     "7": "Almost got it..."
   },
   "INTERNALERROR": {
-     "1": "An internal error has occurred, please try again later.",
-     "2": "Looks like we're having trouble. Please try again later."
-   },
+    "1": "An internal error has occurred, please try again later.",
+    "2": "Looks like we're having trouble. Please try again later."
+  },
   "NOMUSICBOTS": "Hello! All Node music bots are currently busy or unavailable. \n\nIf you want to use Node music immediately, invite one of the following bots and use the command again: \n\n",
   "NOTINSERVER": "is not found on the server, invite it by [Click Here]",
   "247AUTOMIX": {
-   "1": "The party continues 24/7! <a:confetti:891782011788865547>",
-   "2": "Keep the party going! <a:confetti:891782011788865547>",
-   "3": "Did you think it was over? Nope! <a:DJPeepo:969757766744944700>"
-   },
+    "1": "The party continues 24/7! <a:confetti:891782011788865547>",
+    "2": "Keep the party going! <a:confetti:891782011788865547>",
+    "3": "Did you think it was over? Nope! <a:DJPeepo:969757766744944700>"
+  },
   "READMORE": {
     "1": "**Hello! All Node music bots are currently busy <a:pepeeyepoppin:967933614518054962>**",
     "2": "What does this mean?",
@@ -1265,7 +1266,7 @@
     "7": "Node has 4 music bots, these being:\n\n[Node2 <:logonodemorado:968094477480771584>](https://discord.com/api/oauth2/authorize?client_id=963496530818506802&permissions=137475976512&scope=bot) ",
     "8": "\n\n[Node3 <:logonode Naranja:968094477019402292>](https://discord.com/api/oauth2/authorize?client_id=963954741837201540&permissions=137475976512&scope=bot) ",
     "9": "\n\n[Node4 <:logonodeazul:968094477866659850>](https://discord.com/api/oauth2/authorize?client_id=853888393917497384&permissions=137475976512&scope=bot) ",
-    "10":" \n\n and me, Node ^^.",
+    "10": " \n\n and me, Node ^^.",
     "11": "✨ - Multibot Music System Node",
     "12": "(Already on the server)"
   },

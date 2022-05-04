@@ -768,10 +768,10 @@
   },
   "SKIP": {
     "1": {
-    "1": "No hay canciones reproduciendose en tu canal de voz. ¿Por qué no agregas una? <:pepeblink:967941236029788160>",
-    "2": "Parece que no estás escuchando música, ¿qué tal si lo hacemos? <:pepeblink:967941236029788160>",
-    "3": "¿Qué haces que no escuchas música? Agrega ya una canción :)"
-  },
+      "1": "No hay canciones reproduciendose en tu canal de voz. ¿Por qué no agregas una? <:pepeblink:967941236029788160>",
+      "2": "Parece que no estás escuchando música, ¿qué tal si lo hacemos? <:pepeblink:967941236029788160>",
+      "3": "¿Qué haces que no escuchas música? Agrega ya una canción :)"
+    },
     "2": "No estás dentro de mi canal de voz.",
     "3": "No hay música reproduciendose.",
     "4": "ha sido saltada."
@@ -793,7 +793,7 @@
     "5": "Reproductor Node",
     "6": "__**Volumen Actual**__",
     "7": "El volumen actual ya es igual a:",
-    "8": "Volumen ajustado <:check:897836005762166835>",
+    "8": "Volumen ajustado",
     "9": "El volumen debe de ser un número entre 0 y 100."
   },
   "ROLEINFO": {
@@ -1224,6 +1224,7 @@
   "PLAYER": {
     "stopMusic": "Detener",
     "pauseMusic": "Pausar",
+    "resumeMusic": "Resumida",
     "skipMusic": "Saltar",
     "queueMusic": "Cola"
   },
@@ -1247,14 +1248,13 @@
   "INTERNALERROR": {
     "1": "Ha ocurrido un error interno, inténtelo de nuevo más tarde.",
     "2": "Parece que tenemos problemas.. inténtalo de nuevo más tarde."
-  
   },
   "NOMUSICBOTS": "¡Hola! En estos momentos todos los bots de música de Node están ocupados o no disponibles. \n\nSi quieres usar la música de Node inmediatamente, invita a alguno de los siguientes bots y vuelve a usar el comando:\n\n",
   "NOTINSERVER": "no se encuentra en el servidor, invítalo haciendo [Click Aquí]",
   "247AUTOMIX": {
-  "1": "¡La fiesta continua 24/7! <a:confetti:891782011788865547>",
-  "2": "¡Que no pare la fiesta! <a:confetti:891782011788865547>",
-  "3": "¿Pensabas que había acabado? ¡Pues no! <a:DJPeepo:969757766744944700>"
+    "1": "¡La fiesta continua 24/7! <a:confetti:891782011788865547>",
+    "2": "¡Que no pare la fiesta! <a:confetti:891782011788865547>",
+    "3": "¿Pensabas que había acabado? ¡Pues no! <a:DJPeepo:969757766744944700>"
   },
   "READMORE": {
     "1": "**¡Hola! En estos momentos todos los bots de música de Node están ocupados <a:pepeeyepoppin:967933614518054962>**",
@@ -1266,7 +1266,7 @@
     "7": "Node dispone de 4 bots de música, siendo estos:\n\n[Node2 <:logonodemorado:968094477480771584>](https://discord.com/api/oauth2/authorize?client_id=963496530818506802&permissions=137475976512&scope=bot) ",
     "8": "\n\n[Node3 <:logonodenaranja:968094477019402292>](https://discord.com/api/oauth2/authorize?client_id=963954741837201540&permissions=137475976512&scope=bot) ",
     "9": "\n\n[Node4 <:logonodeazul:968094477866659850>](https://discord.com/api/oauth2/authorize?client_id=853888393917497384&permissions=137475976512&scope=bot) ",
-    "10":" \n\n y yo, Node ^^.",
+    "10": " \n\n y yo, Node ^^.",
     "11": "✨ - Node Sistema Música Multibot",
     "12": "(Ya está en el servidor)"
   },
