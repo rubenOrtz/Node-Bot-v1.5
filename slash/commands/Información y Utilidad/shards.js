@@ -84,6 +84,9 @@ module.exports = class shards extends Command {
                     embeds.push(embed);
                 });
             interaction.editReply({
+                content: "Se han enviado los mensajes con la información de cada shard."
+            });
+            interaction.channel.send({
                 embeds: [embed]
             });
         }
