@@ -3,11 +3,17 @@ const {
 } = require('discord.js');
 const client = require("../../bot");
 
-client.on("voiceStateUpdate", async (oldState, newState) => {
+const Event = require("../../structures/event")
+module.exports = class voiceStateUpdate extends Event {
+	constructor(...args) {
+		super(...args);
+	}
+	async run(oldState, newState) {
     if(client.manager) {
     const player = client.manager.players.get(oldState.guild.id);
 
-    if (!player || player.stayInVoice || !oldState.guild.me.voice.channel || !newState.guild.me.voice.channel) return;
+    if (!player || player.stayInVoice) return;
+    if(!newState.guild.me.voice.channel || !oldState.guild.me.voice.channel) return player.destroy(true)
     if (newState.guild.me.voice.channel.members.filter(member => !member.user.bot).size >= 1) {
         if(!player.waitingMessage && player.stayInVc) player.pause(false);
         if (player.waitingMessage) {
@@ -49,11 +55,14 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
         const embed2 = new MessageEmbed()
             .setDescription(`${client.language.VOICESTATEUPDATE[4]}${oldState.guild.me.voice.channel.id}${client.language.VOICESTATEUPDATE[5]}`)
             .setColor(process.env.bot1Embed_Color);
-        return msg.edit({
-            embeds: [embed2],
-            content: null
-        });
+            if(msg) {
+                return msg.edit({
+                    embeds: [embed2],
+                    content: null
+                });
+            }
     } else return msg.delete();
 }
     }
-});
+}
+}
