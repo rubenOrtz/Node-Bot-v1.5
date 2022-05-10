@@ -6,7 +6,7 @@ module.exports = class guildMemberAdd extends Event {
     super(...args);
   }
   async run(member) {
-    console.log(member);
+    return;
     // if (!member.guild.id !== "834440041010561074") return;
     if (!member.guild.id) return;
     const canvas = Canvas.createCanvas(1772, 633);
