@@ -1,21 +1,19 @@
 require("dotenv").config();
 const Logger = require("./utils/console");
-const fs = require('fs');
-const ShardMessage = require('./events/client/shardMessage.js');
-const Statcord = require('statcord.js');
-const Sentry = require('@sentry/node');
+const fs = require("fs");
+const ShardMessage = require("./events/client/shardMessage.js");
+const Statcord = require("statcord.js");
+const Sentry = require("@sentry/node");
 
 // const {
 //     ClusterManager
 // } = require('discord.js-cluster');
 
-const {
-  ShardingManager
-} = require('discord.js');
+const { ShardingManager } = require("discord.js");
 
-const manager = new ShardingManager('./bot.js', {
+const manager = new ShardingManager("./bot.js", {
   token: process.env.token,
-  totalShards: "auto"
+  totalShards: "auto",
 });
 // const manager = new ClusterManager('./bot.js', {
 //     token: process.env.TOKEN,
@@ -29,9 +27,11 @@ fs.writeFile("test.txt", "0", function (err) {
     return console.log(err);
   }
 });
-manager.on('shardCreate', shard => {
+manager.on("shardCreate", (shard) => {
   Logger.debug(`Launched cluster ${shard.id}`);
-  shard.on('message', (message) => (new ShardMessage(null, ShardMessage)).run(shard, message, manager, Logger));
+  shard.on("message", (message) =>
+    new ShardMessage(null, ShardMessage).run(shard, message, manager, Logger)
+  );
 });
 
 // manager.on('shardCreate', cluster => Logger.debug(`Launched cluster ${cluster.id}`));
@@ -47,11 +47,11 @@ if (process.env.STATCORD_TOKEN && process.env.NODE_ENV != "development") {
     autopost: true,
   });
 
-  manager.statcord.on('autopost-start', () => {
-    Logger.log('Started autopost');
+  manager.statcord.on("autopost-start", () => {
+    Logger.log("Started autopost");
   });
 
-  manager.statcord.on('post', status => {
+  manager.statcord.on("post", (status) => {
     if (!status) return;
     else Logger.error(status);
   });
@@ -66,14 +66,14 @@ if (process.env.STATCORD_TOKEN && process.env.NODE_ENV != "development") {
   //   return songs.reduce((a, b) => a + b, 0).toString();
   // });
 }
-if (process.env.NODE_ENV != 'development') {
+if (process.env.NODE_ENV != "development") {
   if (process.env.SENTRY_DSN) {
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
       environment: process.env.NODE_ENV,
-      release: require('./package.json').version,
+      release: require("./package.json").version,
       tracesSampleRate: 0.5,
     });
-    Logger.log('Connected to Sentry');
-  } else Logger.warn('Sentry dsn missing.');
+    Logger.log("Connected to Sentry");
+  } else Logger.warn("Sentry dsn missing.");
 }
